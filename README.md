@@ -8,22 +8,29 @@ It is not yet the complete Part B system.
 
 Use Python 3.10 or newer from the project directory:
 
+For a first run, double-click `run_demo.bat`, or run ` .\run_demo.bat` in
+PowerShell. It installs dependencies, prepares the included workbook and saves
+an example chart. The first run needs internet access to install dependencies.
+You can also run each step manually:
+
 ```powershell
 python -m venv .venv
 .\.venv\Scripts\python.exe -m pip install -r requirements.txt
 ```
 
-No activation is required for the commands below. Keep your supplied datasets
-locally. Raw workbooks, generated data, plots and the virtual environment are
-excluded from Git. The original workbook is never edited.
+No activation is required for the commands below. The supplied datasets are in
+`data/raw/` and the assignment brief, map and conversion guide are in
+`docs/reference/`. See [the input inventory](docs/INPUTS.md) for their roles.
+Generated data, plots and the virtual environment are excluded from Git because
+they can be recreated. The original workbook is never edited.
 
 ## Prepare the traffic data
 
 ```powershell
-.\.venv\Scripts\python.exe -m traffic.prepare "C:\Users\Fyone\Downloads\Scats Data October 2006.xls"
+.\.venv\Scripts\python.exe -m traffic.prepare "data/raw/Scats Data October 2006.xls"
 ```
 
-Replace the path with your own workbook location. Optional output override:
+Optional output override:
 `--output data/processed/scats_15min.csv`.
 
 The converter reads the `Data` sheet and writes:
