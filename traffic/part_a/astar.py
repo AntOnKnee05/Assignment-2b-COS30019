@@ -50,4 +50,3 @@ def astar(problem):
                 frontier.push(child, child.path_cost + estimate)
 
     return SearchResult(None, nodes_created)
-
