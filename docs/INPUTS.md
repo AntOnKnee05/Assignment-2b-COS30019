@@ -18,4 +18,5 @@ traffic data are left missing; see the main README for validation results.
 
 Run `run_demo.bat` on Windows to recreate the processed CSV, quality summary and
 example plot. These outputs and Python packages are generated locally rather than
-stored in Git. Prediction models, routing and a GUI are still to be implemented.
+stored in Git. Use `run_app.bat` for the full GUI, training, prediction and routing
+workflow. See the main README for road-graph and conversion assumptions.

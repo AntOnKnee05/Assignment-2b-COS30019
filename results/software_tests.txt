@@ -1,0 +1,46 @@
+test_hourly_flow_units (test_prediction.PredictionTests.test_hourly_flow_units) ... ok
+test_lstm_gru_batch_shapes_and_finite_outputs (test_prediction.PredictionTests.test_lstm_gru_batch_shapes_and_finite_outputs) ... ok
+test_missing_history_uses_training_profile (test_prediction.PredictionTests.test_missing_history_uses_training_profile) ... ok
+test_recurrent_weights_roundtrip (test_prediction.PredictionTests.test_recurrent_weights_roundtrip) ... ok
+test_recursive_forecast_does_not_read_future (test_prediction.PredictionTests.test_recursive_forecast_does_not_read_future) ... ok
+test_training_date_rejected (test_prediction.PredictionTests.test_training_date_rejected) ... ok
+test_unaligned_time_rejected (test_prediction.PredictionTests.test_unaligned_time_rejected) ... ok
+test_unknown_aggregation_rejected (test_prediction.PredictionTests.test_unknown_aggregation_rejected) ... ok
+test_bad_counts_rejected (test_preparation.PreparationTests.test_bad_counts_rejected) ... ok
+test_bad_interval_header (test_preparation.PreparationTests.test_bad_interval_header) ... ok
+test_counts_times_and_date (test_preparation.PreparationTests.test_counts_times_and_date) ... ok
+test_duplicate_is_error (test_preparation.PreparationTests.test_duplicate_is_error) ... ok
+test_failed_conversion_preserves_existing_output (test_preparation.PreparationTests.test_failed_conversion_preserves_existing_output) ... ok
+test_leading_zero_id (test_preparation.PreparationTests.test_leading_zero_id) ... ok
+test_missing_is_not_zero (test_preparation.PreparationTests.test_missing_is_not_zero) ... ok
+test_plot_missing_slots_and_unknown_series (test_preparation.PreparationTests.test_plot_missing_slots_and_unknown_series) ... ok
+test_separate_internal_locations (test_preparation.PreparationTests.test_separate_internal_locations) ... ok
+test_bad_cutoff_order (test_system.DataTests.test_bad_cutoff_order) ... ok
+test_calendar_wrap (test_system.DataTests.test_calendar_wrap) ... ok
+test_chronological_cutoffs (test_system.DataTests.test_chronological_cutoffs) ... ok
+test_empty_split_rejected (test_system.DataTests.test_empty_split_rejected) ... ok
+test_gap_not_crossed (test_system.DataTests.test_gap_not_crossed) ... ok
+test_metrics_known_values (test_system.DataTests.test_metrics_known_values) ... ok
+test_nonfinite_metrics_rejected (test_system.DataTests.test_nonfinite_metrics_rejected) ... ok
+test_scaler_and_profiles_ignore_future (test_system.DataTests.test_scaler_and_profiles_ignore_future) ... ok
+test_target_not_in_history (test_system.DataTests.test_target_not_in_history) ... ok
+test_zero_mean_nrmse_undefined (test_system.DataTests.test_zero_mean_nrmse_undefined) ... ok
+test_actual_network_connected_and_finite (test_system.RouteTests.test_actual_network_connected_and_finite) ... ok
+test_invalid_route_count (test_system.RouteTests.test_invalid_route_count) ... ok
+test_negative_edge_rejected (test_system.RouteTests.test_negative_edge_rejected) ... ok
+test_routes_are_loopless (test_system.RouteTests.test_routes_are_loopless) ... ok
+test_same_origin_destination (test_system.RouteTests.test_same_origin_destination) ... ok
+test_top_five_match_exhaustive_oracle (test_system.RouteTests.test_top_five_match_exhaustive_oracle) ... ok
+test_unknown_site (test_system.RouteTests.test_unknown_site) ... ok
+test_unreachable (test_system.RouteTests.test_unreachable) ... ok
+test_capacity_and_saturation (test_system.TravelTests.test_capacity_and_saturation) ... ok
+test_distance_symmetric (test_system.TravelTests.test_distance_symmetric) ... ok
+test_flow_endpoint_switch (test_system.TravelTests.test_flow_endpoint_switch) ... ok
+test_free_flow_and_delay_units (test_system.TravelTests.test_free_flow_and_delay_units) ... ok
+test_invalid_inputs (test_system.TravelTests.test_invalid_inputs) ... ok
+test_time_increases_with_flow (test_system.TravelTests.test_time_increases_with_flow) ... ok
+
+----------------------------------------------------------------------
+Ran 41 tests in 1.717s
+
+OK

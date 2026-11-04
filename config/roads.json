@@ -1,0 +1,29 @@
+{
+  "description": "Simplified bidirectional corridor graph of the 40 measured sites. Consecutive listed sites are connected; unmeasured intermediate intersections are collapsed. Corridor order follows supplied location names and IBM map. Distances are straight-line approximations, not surveyed road lengths. No turn restrictions or freeway ramps are modelled.",
+  "corridors": [
+    {"road": "Warrigal Road", "sites": ["2200", "3126", "3682", "2000", "3685", "0970"]},
+    {"road": "Burke Road", "sites": ["2825", "4030", "4032", "4034", "4035", "3120", "4040", "4043"]},
+    {"road": "Balwyn Road", "sites": ["3180", "4057", "4063", "3127"]},
+    {"road": "Canterbury Road", "sites": ["3120", "3122", "3127", "3126"]},
+    {"road": "Riversdale Road", "sites": ["4270", "4272", "4040", "3804", "3682"]},
+    {"road": "Toorak Road", "sites": ["4273", "4043", "2000"]},
+    {"road": "Burwood Road", "sites": ["4262", "4263", "4264", "4266", "3120"]},
+    {"road": "Barkers Road", "sites": ["3001", "3002", "4035"]},
+    {"road": "High Street (Kew)", "sites": ["3662", "4335", "4321", "4030"]},
+    {"road": "High Street (Glen Iris)", "sites": ["2846", "0970"]},
+    {"road": "Princess Street", "sites": ["2820", "3662"]},
+    {"road": "Denmark Street", "sites": ["3662", "3002"]},
+    {"road": "High/Church Street", "sites": ["3662", "3001", "4262"]},
+    {"road": "Power Street", "sites": ["3002", "4263", "4812"]},
+    {"road": "Glenferrie Road", "sites": ["4324", "4264", "4270"]},
+    {"road": "Cotham/Whitehorse Road", "sites": ["3662", "4324", "4034", "4063", "2200"]},
+    {"road": "Harp/Belmore Road", "sites": ["4321", "4032", "4057"]},
+    {"road": "Doncaster Road", "sites": ["4030", "4051", "3180"]},
+    {"road": "Bulleen Road", "sites": ["2827", "4051"]},
+    {"road": "Trafalgar Road", "sites": ["3804", "3812"]},
+    {"road": "Camberwell Road", "sites": ["4040", "3812"]},
+    {"road": "Tooronga Road", "sites": ["4272", "4273"]},
+    {"road": "Swan/Riversdale Road", "sites": ["4812", "4270"]},
+    {"road": "Victoria/Barkers Road via Church Street", "sites": ["4821", "3001"]}
+  ]
+}

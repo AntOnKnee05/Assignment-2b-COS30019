@@ -1,190 +1,163 @@
-# COS30019 Assignment 2B
+# COS30019 Assignment 2B - Traffic-Based Route Guidance
 
-Traffic prediction and route guidance for Boroondara. This first implementation
-prepares the supplied October 2006 SCATS workbook and plots a recorded series.
-It is not yet the complete Part B system.
+Predict traffic using LSTM, GRU and regression tree, estimate travel times, and find up to five routes between SCATS sites. Includes a Tkinter GUI, configuration, command-line tools and automated tests.
 
-## 1. Get the project
+The report is excluded. Regression tree is implemented as the proposed third model; tutor approval is still pending. Lecturer example scripts are not included.
 
-You need Python 3.10 or newer, Git (if cloning), and an internet connection for
-the first dependency installation. Check Python in PowerShell:
+## 1. Download or update
 
-```powershell
-python --version
-```
-
-For your first download, open PowerShell in the folder where you want to keep
-the project, then run:
+Install Python 3.10+ with PATH enabled (tested with Python 3.13 on Windows).
 
 ```powershell
 git clone https://github.com/AntOnKnee05/Assignment-2b-COS30019.git
 cd Assignment-2b-COS30019
 ```
 
-If you already have the repository, open PowerShell in that repository folder
-and run `git pull` instead. Alternatively, download the ZIP from GitHub and
-extract it before running the program. All required input files are included.
+Already cloned? Open PowerShell in the repository and run `git pull`. Alternatively, download and extract the ZIP. Supplied datasets and PDFs are included; see [the inventory](docs/INPUTS.md).
 
-## 2. Run the demo (easiest option)
+## 2. Run the GUI
 
-Double-click `run_demo.bat` in the project folder, or run this in PowerShell
-from that folder:
+Double-click **run_app.bat**, or run:
 
 ```powershell
-.\run_demo.bat
+.\run_app.bat
 ```
 
-The launcher creates a Python environment if needed, installs dependencies,
-converts the included traffic workbook, and saves a chart for site **0970**,
-internal location **1**, on **1 October 2006**. Wait until it prints `Done.`,
-then press any key to close the launcher.
+The launcher creates the Python environment, installs dependencies, prepares missing processed data and opens the app. First installation requires internet access and downloads PyTorch. No activation or execution-policy changes are required.
 
-The following files will be created inside the project folder:
+### Train models once
 
-| File | What it contains |
-|---|---|
-| `data/processed/scats_15min.csv` | 402,432 traffic observations from the supplied workbook |
-| `data/processed/scats_15min.summary.json` | Counts of sites, series, observations and missing data |
-| `outputs/site_0970_day.png` | A chart of recorded traffic for the example day |
+1. Open **Train & evaluate**.
+2. Keep **12 epochs** and **12 history intervals** initially.
+3. Click **Train all 3 models** and leave the app open.
+4. Follow the progress log. The evaluation table appears when training completes.
 
-Open the PNG in File Explorer, or use PowerShell:
+Models are saved locally and reused after restarting. They have already been trained on this development machine. Each new clone needs its own training run because generated artifacts are excluded from Git. Retraining creates a new run; the active run changes only after all three models train successfully.
 
-```powershell
-Invoke-Item .\outputs\site_0970_day.png
-```
+### Find routes
 
-The demo saves a chart; it does not open a GUI. Prediction models, route finding
-and the GUI are still under development. Running the demo again recreates these
-generated files.
+1. Open **Find routes**.
+2. Choose origin **2000**, destination **3002**.
+3. Enter date **2006-10-30**, time **08:00**, model **GRU**, and **5** routes.
+4. Click **Find routes**.
+5. Select a result row to highlight its path. Times are in minutes.
+6. Click **Save route results** to export `outputs/gui_routes.json`.
 
-## 3. Run individual steps (optional)
+Use 15-minute boundaries (00, 15, 30 or 45). Dates before the training cutoff are rejected. Missing history and future dates use training-only seasonal fallback inputs; the status bar reports their count. These are planning estimates, not live traffic.
 
-If you ran the demo successfully, setup and data preparation are already done.
-To run manually, use the following commands from the project folder.
+Defaults use destination-site traffic, summed across approaches, a 60 km/h speed limit and 30 seconds delay per edge. Source-site flow and mean-approach aggregation are available for sensitivity checks; these change the assumptions.
 
-### Install dependencies
+### Predict traffic
+
+Set date/time on Find routes. Open **Traffic prediction**, select a site/model and click **Predict next hour**. The chart shows four predicted 15-minute counts and their hourly sum. Later intervals use previous predictions, never future recorded counts.
+
+### Read evaluation
+
+Click **Load evaluation** on Train & evaluate. RMSE and MAE are in vehicles per 15 minutes. NRMSE is RMSE divided by the mean actual count. Lower is better; **NRMSE is not an accuracy percentage**. A zero actual mean makes NRMSE undefined.
+
+## 3. Run individual commands
+
+Run from the repository root. No environment activation is needed.
+
+### Install and prepare data
 
 ```powershell
 python -m venv .venv
 .\.venv\Scripts\python.exe -m pip install -r requirements.txt
-```
-
-No activation is required for the commands below. The supplied datasets are in
-`data/raw/` and the assignment brief, map and conversion guide are in
-`docs/reference/`. See [the input inventory](docs/INPUTS.md) for their roles.
-Generated data, plots and the virtual environment are excluded from Git because
-they can be recreated. The original workbook is never edited.
-
-### Prepare the traffic data
-
-```powershell
 .\.venv\Scripts\python.exe -m traffic.prepare "data/raw/Scats Data October 2006.xls"
 ```
 
-Optional output override:
-`--output data/processed/scats_15min.csv`.
+Creates `data/processed/scats_15min.csv` and a summary JSON. Original inputs are unchanged. There are 402,432 observations, 40 sites, 140 detector series and 148 absent series-days. Missing days are not filled with zero.
 
-The converter reads the `Data` sheet and writes:
+### Train and evaluate all models
 
-- `data/processed/scats_15min.csv`: one row per location and 15-minute interval.
-- `data/processed/scats_15min.summary.json`: source and quality counts.
+```powershell
+.\.venv\Scripts\python.exe -u -m traffic.train
+```
 
-Columns: `scats_site`, `location`, `vr_internal_loc`, `date`, `start_time`,
-`vehicle_count`. Site identifiers remain zero-padded strings, e.g. `0970`.
-Excel may automatically remove leading zeros if you open a CSV directly; import
-that column as text when viewing it in Excel.
+Add `--epochs 20` to change the maximum epochs. One epoch is suitable for a smoke run, not final model comparison. To regenerate recursive next-hour evaluation with existing models:
 
-Each series is identified by site, location description and internal location ID.
-Keep these identifiers together when building training sequences. Site 4335
-contains two different internal locations with the same description and different
-counts; they must not be collapsed as duplicates.
+```powershell
+.\.venv\Scripts\python.exe -m traffic.evaluate
+```
 
-The Date field's time component is ignored. V00-V95 are mapped using the checked
-interval-start header: 00:00, 00:15, ... 23:45. Counts must be finite nonnegative
-integers. Invalid measurements and duplicate location-days fail validation.
-A failed conversion leaves an existing CSV intact instead of publishing a partial
-replacement. Blank measurements stay blank, valid zeros stay zero, and absent days
-are not fabricated or filled. Output follows workbook order; sort each series by
-date and time before training.
+### Find routes
 
-Validated on the supplied workbook on 4 November 2026:
+```powershell
+.\.venv\Scripts\python.exe -m traffic.route --origin 2000 --destination 3002 --departure 2006-10-30T08:00 --model GRU --routes 5
+```
 
-| Measure | Value |
-|---|---:|
-| Source location-days | 4,192 |
-| Sites | 40 |
-| Separate location series | 140 |
-| Dates | 31 (1-31 October 2006) |
-| Output observations | 402,432 |
-| Blank measurements within supplied rows | 0 |
-| Absent series-days across the 31 observed dates | 148 |
-| Sum of all recorded counts | 41,845,199 |
+Models: `TREE`, `LSTM`, `GRU`. Results print and save to `outputs/routes.json`.
 
-The sum counts observations at different locations, not unique vehicles across
-Boroondara. The first hour for site 0970, location 1, on 1 October is
-86 + 83 + 52 + 58 = 279 recorded vehicles.
+### Launch GUI manually
 
-### Plot one day
+```powershell
+.\.venv\Scripts\python.exe -m traffic.gui
+```
+
+### Plot recorded data only
+
+The original `run_demo.bat` still runs the preparation/recorded-chart demo. Alternatively:
 
 ```powershell
 .\.venv\Scripts\python.exe -m traffic.plot_day --site 0970 --location-id 1 --date 2006-10-01
+Invoke-Item .\outputs\site_0970_day.png
 ```
 
-The chart is saved as `outputs/site_0970_day.png`. For another series, supply the
-site, internal location ID and date, and optionally `--output outputs/my_day.png`.
-Use `--input` to select a different prepared CSV. A selection that mixes different
-location descriptions is rejected. Missing intervals appear as gaps, not zeros.
-The chart shows recorded traffic, not predictions.
+This chart contains observations, not predictions.
 
-| Argument | Meaning in the example |
+## 4. Configuration and output files
+
+Edit [config/default.json](config/default.json) for persistent defaults. GUI changes apply to that session. Training, evaluation, route and GUI commands accept `--config path/to/custom.json`; custom keys override defaults and paths resolve relative to the repository.
+
+| Settings | Purpose |
 |---|---|
-| `--site 0970` | SCATS intersection/site identifier |
-| `--location-id 1` | Internal measurement location at that site |
-| `--date 2006-10-01` | Date to display, in year-month-day format |
+| `train_end`, `validation_end` | Exclusive chronological cutoffs |
+| `window` | Prior 15-minute observations; 12 means 3 hours |
+| `epochs`, `patience` | Maximum epochs and early stopping |
+| `hidden_size`, `batch_size`, `learning_rate`, `seed`, `threads` | Training parameters |
+| `flow_site` | `destination` or `source` |
+| `flow_aggregation` | `sum` or `mean` of approaches |
+| `graph` | Explicit simplified corridor graph |
 
-Choose combinations that exist in the prepared CSV. To keep a new chart without
-replacing the example, add `--output outputs/my_day.png` to the command.
+`artifacts/latest.txt` identifies the active run. Each run contains model weights, a manifest with data hash/scalers/profiles/settings/versions, training history, validation/test metrics, per-detector metrics, test predictions, recursive-hour metrics and predictions, and an evaluation chart. See [implementation details](docs/IMPLEMENTATION.md).
 
-## 4. Run the tests
+Processed CSV changes require retraining. Only load trusted model artifacts: joblib uses executable Python serialization. The GUI Prepare data button recreates the CSV; the preparation CLI also writes its quality summary.
+
+## 5. Test the program
 
 ```powershell
 .\.venv\Scripts\python.exe -m unittest discover -s tests -v
+.\.venv\Scripts\python.exe -m traffic.check_scenarios
 ```
 
-Nine tests cover interval/date decoding, zero-padded IDs, separate internal
-locations, duplicate detection, missing values, invalid counts, interval headers,
-atomic output replacement and plotting selection. The real workbook conversion
-and chart generation were also checked locally.
+The second command needs trained models. It verifies 15 real-data scenarios across all models and writes `results/route_scenarios.csv`. Unit tests cover data gaps/leakage, metrics, model inference, conversion and routes. Saved evaluation/test evidence is in [results](results/), not an assignment report.
 
-A successful run ends with `Ran 9 tests` and `OK`.
+## 6. Assumptions to understand
+
+- Training: 1-21 October; validation: 22-26 October; test: 27-31 October. Training-only scalers and profiles; contiguous per-detector windows.
+- The road graph is a simplified bidirectional corridor graph, not an authoritative navigation map. Unmeasured sites are collapsed; turn restrictions and freeway ramps are omitted. Straight-line distances can underestimate road distances.
+- The brief uses destination flow; the conversion guide says source flow. Both are configurable; destination is the default.
+- The flow equation has no real solution above about 1,500 vehicles/hour. We saturate at its turning-point speed (about 32 km/h) and report affected edges. Summed approaches often exceed this threshold: 105 of 112 directed edges in the default example. This limits route sensitivity to model differences.
+- Mean-approach aggregation is available as a different assumption, not an equivalent physical model.
+- Edge weights stay fixed for the departure hour. One 30-second delay per traversed edge; no extra departure delay. Identical endpoints cost zero.
+- Future dates use seasonal context when observations are unavailable. Only October 2006 was available for evaluation; no real-time data is connected.
+- Regression-tree tutor approval remains pending. The report is intentionally excluded.
 
 ## Troubleshooting
 
-| Problem | What to do |
+| Problem | Action |
 |---|---|
-| `python` is not recognised or opens the Microsoft Store | Install Python 3.10 or newer with the option to add Python to PATH, then reopen PowerShell. |
-| PowerShell cannot find `run_demo.bat` | Open PowerShell in the extracted/cloned project folder and use `.\run_demo.bat`. |
-| Dependency installation fails | Check your internet connection and the displayed error, then rerun the launcher. |
-| The prepared CSV is missing | Run the demo or the data preparation command before plotting. |
-| No matching series is found | Check that the site, internal location ID and date exist together in the prepared CSV. Some days are absent. |
-| No chart window opens | Open `outputs/site_0970_day.png` manually; plotting saves a file. |
+| Python not recognised | Install Python with PATH enabled, then reopen PowerShell. |
+| Missing packages | Run the launcher or install requirements with the virtual-environment Python. |
+| Models missing | Train all three models first. |
+| Invalid time | Use ISO date and a 15-minute boundary on/after the training cutoff. |
+| Training lock after an interrupted process | Confirm no training is running, then remove `artifacts/training.lock` and retry. |
+| Processed data changed | Retrain to match the new CSV. |
+| Many saturated edges | Review the conversion and aggregation assumptions above. |
 
-## Next implementation stages
+## Acknowledgements
 
-- Split each series chronologically into training, validation and test periods.
-  Fit scalers on training data only and do not create windows across missing days.
-- Train and evaluate LSTM, GRU and a third tutor-approved model.
-- Implement the supplied flow-to-travel-time conversion. Resolve the discrepancy
-  between the brief (destination site's volume) and conversion guide (starting
-  site's volume) before choosing the convention.
-- Build the road graph and integrate up to five routes from Part A.
-- Add the required GUI, default configuration and end-to-end tests.
+The course-supplied VicRoads data, map and conversion guide inform the implementation. The lecturer notebook informed prediction/NRMSE interpretation but its code is not included. The team's Part A A* was ported and adapted; sources and library references are listed in [implementation details](docs/IMPLEMENTATION.md).
 
-Those stages are not implemented in this commit. The CSV is preparatory data,
-not yet model-ready windows or a trained predictor.
-
-## Acknowledgement
-
-The dataset is the course-supplied VicRoads SCATS workbook. ChatGPT/Codex assisted
-with preprocessing, plotting, tests and documentation. Team members should review
-the code, understand the data assumptions and record actual contributions.
+ChatGPT/Codex assisted with implementation, testing and documentation. Team members should review and understand the code, confirm the third model with their tutor and accurately acknowledge contributions.

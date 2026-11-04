@@ -1,0 +1,42 @@
+{
+  "config": {
+    "source": "data/raw/Scats Data October 2006.xls",
+    "processed": "data/processed/scats_15min.csv",
+    "artifacts": "artifacts",
+    "graph": "config/roads.json",
+    "train_end": "2006-10-22",
+    "validation_end": "2006-10-27",
+    "window": 12,
+    "epochs": 12,
+    "patience": 3,
+    "batch_size": 1024,
+    "hidden_size": 24,
+    "learning_rate": 0.002,
+    "seed": 42,
+    "threads": 4,
+    "model": "GRU",
+    "origin": "2000",
+    "destination": "3002",
+    "departure": "2006-10-30T08:00",
+    "routes": 5,
+    "flow_site": "destination",
+    "flow_aggregation": "sum",
+    "speed_limit_kmh": 60,
+    "intersection_delay_seconds": 30
+  },
+  "versions": {
+    "python": "3.13.14",
+    "torch": "2.15.0+cpu",
+    "sklearn": "1.9.1",
+    "numpy": "2.5.4"
+  },
+  "data_sha256": "86107af207961966281d8cb6a9380571b158b69a2d40fbcf67ab2ac39b27c6c9",
+  "split_counts": {
+    "train": 276168,
+    "validation": 61536,
+    "test": 62688
+  },
+  "evaluation": "rolling one-step, actual observed history; no test-target inputs",
+  "third_model_approval": "Regression tree: pending tutor confirmation",
+  "run": "run_20261104_201257_882451"
+}
