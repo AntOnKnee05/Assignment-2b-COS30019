@@ -34,9 +34,12 @@ class App(tk.Tk):
         ttk.Label(self, text='October 2006 SCATS data | LSTM, GRU and regression tree | Estimated travel times').pack(anchor='w', padx=20)
         self.tabs = ttk.Notebook(self); self.tabs.pack(fill='both', expand=True, padx=16, pady=12)
         self.routes_tab = ttk.Frame(self.tabs); self.forecast_tab = ttk.Frame(self.tabs); self.training_tab = ttk.Frame(self.tabs)
-        for tab, title in ((self.routes_tab, 'Find routes'), (self.forecast_tab, 'Traffic prediction'), (self.training_tab, 'Train & evaluate')):
+        self.scenarios_tab = ttk.Frame(self.tabs)
+        for tab, title in ((self.routes_tab, 'Find routes'), (self.forecast_tab, 'Traffic prediction'),
+                           (self.training_tab, 'Train & evaluate'), (self.scenarios_tab, 'Test scenarios')):
             self.tabs.add(tab, text=title)
-        self.build_routes(); self.build_forecast(); self.build_training()
+        self.scenario_results = {}
+        self.build_routes(); self.build_forecast(); self.build_training(); self.build_scenarios()
         self.status = tk.StringVar(value='Ready. First visit Train & evaluate if no models have been trained.')
         ttk.Label(self, textvariable=self.status, wraplength=1160).pack(fill='x', padx=20, pady=(0, 12))
         self.after(100, self.poll)
@@ -107,6 +110,87 @@ class App(tk.Tk):
         self.log = tk.Text(self.training_tab, height=12, bg='#162336', fg='#e8f2ff', font=('Consolas', 10), state='disabled')
         self.log.pack(fill='both', expand=True, padx=15, pady=10)
 
+    def build_scenarios(self):
+        """Tab that runs the 15 end-to-end test scenarios and shows each one's checks and routes."""
+        form = ttk.Frame(self.scenarios_tab); form.pack(fill='x', padx=10, pady=(10, 0))
+        ttk.Button(form, text='Run 15 scenarios', command=self.run_scenarios).pack(side='left', padx=5)
+        self.scenario_summary = tk.StringVar(value='5 trips x 3 models. Each predicts traffic, finds up to 5 routes and '
+                                             'checks them independently (Dijkstra, loops, duplicates, ordering, costs).')
+        ttk.Label(form, textvariable=self.scenario_summary, wraplength=900).pack(side='left', padx=12)
+        columns = [('scenario', '#', 40), ('description', 'Trip', 300), ('model', 'Model', 70), ('trip', 'Origin > Dest', 120),
+                   ('departure', 'Departure', 140), ('routes', 'Routes', 65), ('best', 'Best min', 80),
+                   ('checks', 'Checks', 70), ('result', 'Result', 70)]
+        self.scenario_table = ttk.Treeview(self.scenarios_tab, columns=[c[0] for c in columns], show='headings', height=8)
+        for key, label, width in columns:
+            self.scenario_table.heading(key, text=label)
+            self.scenario_table.column(key, width=width, anchor='w' if key == 'description' else 'center', stretch=key == 'description')
+        self.scenario_table.tag_configure('PASS', background='#e3f4ea')
+        self.scenario_table.tag_configure('FAIL', background='#f9dedb')
+        self.scenario_table.pack(fill='x', padx=14, pady=8)
+        self.scenario_table.bind('<<TreeviewSelect>>', lambda event: self.show_scenario())
+        lower = ttk.Frame(self.scenarios_tab); lower.pack(fill='both', expand=True, padx=14, pady=(0, 8))
+        self.scenario_map = tk.Canvas(lower, background='#ffffff', highlightthickness=0)
+        self.scenario_map.pack(side='left', fill='both', expand=True)
+        self.scenario_map.bind('<Configure>', lambda event: self.show_scenario())
+        self.scenario_detail = tk.Text(lower, width=52, bg='#f7fafc', relief='flat', font=('Consolas', 9), state='disabled', wrap='word')
+        self.scenario_detail.pack(side='left', fill='y', padx=(10, 0))
+        self.scenario_detail.tag_configure('ok', foreground='#1b7a43'); self.scenario_detail.tag_configure('bad', foreground='#b3261e')
+        self.scenario_detail.tag_configure('head', font=('Consolas', 10, 'bold'))
+
+    def run_scenarios(self):
+        try:
+            cfg = {**self.selected_config(), 'routes': 5}  # scenarios always request the full top five
+        except ValueError as error:
+            messagebox.showerror('Check inputs', str(error)); return
+        self.scenario_table.delete(*self.scenario_table.get_children()); self.scenario_results.clear()
+        self.show_scenario()
+        def calculate():
+            from .check_scenarios import run_all
+            rows = []
+            for item in run_all(cfg, lambda text: self.events.put(('log', text))):
+                self.events.put(('scenario', item)); rows.append(item[0])
+            return rows
+        self.work('Running 15 test scenarios...', calculate, self.scenarios_done)
+
+    def add_scenario(self, item):
+        row, result, checks = item
+        best = f'{row["best_minutes"]:.2f}' if row['routes'] else '-'
+        iid = str(row['scenario']); self.scenario_results[iid] = (row, result, checks)
+        self.scenario_table.insert('', 'end', iid=iid, tags=(row['result'],), values=(
+            row['scenario'], row['description'], row['model'], f'{row["origin"]} > {row["destination"]}',
+            row['departure'].replace('T', ' '), row['routes'], best, row['checks_passed'], row['result']))
+        if len(self.scenario_results) == 1:
+            self.scenario_table.selection_set(iid)
+
+    def scenarios_done(self, rows):
+        passed = sum(r['result'] == 'PASS' for r in rows)
+        clipped = sum(r['capacity_clipped_edges'] for r in rows)
+        text = (f'{passed}/{len(rows)} scenarios passed. Capacity-saturated edges across all scenarios: {clipped}. '
+                f'Aggregation: {self.vars["flow_aggregation"].get()}. Select a row to see its routes and checks.')
+        self.scenario_summary.set(text); self.status.set(text)
+
+    def show_scenario(self):
+        selected = self.scenario_table.selection()
+        row, result, checks = self.scenario_results.get(selected[0], (None, None, None)) if selected else (None, None, None)
+        paths = [r['path'] for r in result['routes']] if result else []
+        self.draw_network(self.scenario_map, paths[0] if paths else [], paths[1:])
+        self.scenario_detail.configure(state='normal'); self.scenario_detail.delete('1.0', 'end')
+        if row:
+            write = self.scenario_detail.insert
+            write('end', f'Scenario {row["scenario"]}: {row["result"]}\n', 'head')
+            write('end', f'{row["description"]}\n{row["model"]}, {row["origin"]} > {row["destination"]}, '
+                         f'{row["departure"].replace("T", " ")}\n\n')
+            write('end', 'Checks\n', 'head')
+            for name, ok in checks.items():
+                write('end', ('  PASS  ' if ok else '  FAIL  ') + name + '\n', 'ok' if ok else 'bad')
+            write('end', '\nRoutes (best drawn solid, others dashed)\n', 'head')
+            for rank, route in enumerate(result['routes'], 1):
+                write('end', f'  {rank}. {route["minutes"]:.2f} min  {" > ".join(route["path"])}\n')
+            write('end', f'\nSeasonal fallback inputs: {row["fallback_inputs"]}\n'
+                         f'Saturated edges: {row["capacity_clipped_edges"]}/{result["edge_count"]}\n'
+                         f'Search nodes created: {row["nodes_created"]}\n')
+        self.scenario_detail.configure(state='disabled')
+
     def selected_config(self):
         cfg = dict(self.config_data)
         for key in ('origin', 'destination', 'model', 'flow_site', 'flow_aggregation'):
@@ -137,7 +221,9 @@ class App(tk.Tk):
         try:
             while True:
                 kind, value = self.events.get_nowait()
-                if kind == 'log':
+                if kind == 'scenario':
+                    self.add_scenario(value)
+                elif kind == 'log':
                     self.log.configure(state='normal'); self.log.insert('end', value + '\n')
                     self.log.see('end'); self.log.configure(state='disabled'); self.status.set(value)
                 elif kind == 'error':
@@ -172,24 +258,32 @@ class App(tk.Tk):
         self.draw_map()
 
     def draw_map(self):
-        self.map.delete('all')
-        width, height = self.map.winfo_width(), self.map.winfo_height()
+        selected = self.table.selection()
+        path = self.result['routes'][int(selected[0])]['path'] if selected and self.result else []
+        self.draw_network(self.map, path)
+
+    def draw_network(self, canvas, path, alternatives=()):
+        """Draw the schematic road network on `canvas`, highlighting `path` and dashing `alternatives`."""
+        canvas.delete('all')
+        width, height = canvas.winfo_width(), canvas.winfo_height()
         if width < 20 or height < 20:
             return
         lons = [n['lon'] for n in self.nodes.values()]; lats = [n['lat'] for n in self.nodes.values()]
         points = {site: (40 + (n['lon'] - min(lons)) / (max(lons) - min(lons)) * (width - 80),
-                         30 + (max(lats) - n['lat']) / (max(lats) - min(lats)) * (height - 60)) for site, n in self.nodes.items()}
+                         45 + (max(lats) - n['lat']) / (max(lats) - min(lats)) * (height - 75)) for site, n in self.nodes.items()}
         for edge in self.edges:
-            self.map.create_line(*points[edge['source']], *points[edge['target']], fill='#d1dbe6', width=2)
-        selected = self.table.selection()
-        path = self.result['routes'][int(selected[0])]['path'] if selected and self.result else []
+            canvas.create_line(*points[edge['source']], *points[edge['target']], fill='#d1dbe6', width=2)
+        for other in alternatives:
+            for a, b in zip(other, other[1:]):
+                canvas.create_line(*points[a], *points[b], fill='#e3a33b', width=2, dash=(5, 3))
         for a, b in zip(path, path[1:]):
-            self.map.create_line(*points[a], *points[b], fill='#007f9e', width=4, arrow='last')
+            canvas.create_line(*points[a], *points[b], fill='#007f9e', width=4, arrow='last')
         for site, (x, y) in points.items():
             color = '#008568' if path and site == path[0] else '#c34c41' if path and site == path[-1] else '#007f9e' if site in path else '#738299'
-            self.map.create_oval(x-4, y-4, x+4, y+4, fill=color, outline='white')
-            self.map.create_text(x+6, y-8, text=site, anchor='w', fill='#172b45', font=('Segoe UI', 9))
-        self.map.create_text(14, 12, text='N ↑   Schematic network | Green: origin   Red: destination   Teal: selected route', anchor='nw', fill='#44566b')
+            canvas.create_oval(x-4, y-4, x+4, y+4, fill=color, outline='white')
+            canvas.create_text(x+6, y-8, text=site, anchor='w', fill='#172b45', font=('Segoe UI', 9))
+        legend = 'N ↑   Schematic network | Green: origin   Red: destination   Teal: selected route'
+        canvas.create_text(14, 12, text=legend + ('   Orange dashed: other routes' if alternatives else ''), anchor='nw', fill='#44566b')
 
     def save_routes(self):
         if not self.result:

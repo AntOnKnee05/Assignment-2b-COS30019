@@ -55,6 +55,10 @@ Set date/time on Find routes. Open **Traffic prediction**, select a site/model a
 
 Click **Load evaluation** on Train & evaluate. RMSE and MAE are in vehicles per 15 minutes. NRMSE is RMSE divided by the mean actual count. Lower is better; **NRMSE is not an accuracy percentage**. A zero actual mean makes NRMSE undefined.
 
+### Run the 15 test scenarios
+
+Open **Test scenarios** and click **Run 15 scenarios**. Five trips (peak, off-peak, weekend, midnight, same origin/destination) run with each of the three models. Each row turns green (PASS) or red (FAIL) as it finishes. Select a row to draw its best route (solid) and other routes (dashed) and list its six checks: best route equals an independent Dijkstra search, correct endpoints, no loops, no duplicates, sorted by time, and route time equals the sum of its edges. The aggregation and flow-site settings on Find routes apply. The command-line version, `python -m traffic.check_scenarios`, saves the same results to `results/route_scenarios.csv`.
+
 ## 3. Run individual commands
 
 Run from the repository root. No environment activation is needed.
