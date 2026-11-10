@@ -3,4 +3,10 @@ __pycache__/
 *.py[cod]
 data/processed/
 outputs/
-artifacts/
+# Training runs stay local, except the shared team run below.
+artifacts/*
+!artifacts/latest.txt
+!artifacts/run_20261110_115746_770832/
+# Large raw prediction dumps; training recreates them.
+artifacts/run_20261110_115746_770832/test_predictions.csv
+artifacts/run_20261110_115746_770832/hour_predictions.csv

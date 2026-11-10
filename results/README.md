@@ -1,8 +1,9 @@
-# Checked results - 4 November 2026
+# Checked results - 10 November 2026
 
 This directory records software checks and model evaluation, not the assignment
 report. These snapshots correspond to `training_run.json` and the default
-12-epoch configuration. Generated model weights remain local under `artifacts/`.
+12-epoch configuration. The matching model weights are committed as the shared
+team run `artifacts/run_20261110_115746_770832/`.
 
 ## Held-out one-step results
 
@@ -12,8 +13,8 @@ All models were evaluated on the same 62,688 test targets. Model selection used
 | Model | RMSE (vehicles/15 min) | NRMSE | MAE |
 |---|---:|---:|---:|
 | Regression tree | 18.667 | 0.1851 | 12.205 |
-| LSTM | 17.121 | 0.1698 | 11.360 |
-| GRU | 17.196 | 0.1705 | 11.385 |
+| LSTM | 17.115 | 0.1697 | 11.362 |
+| GRU | 17.187 | 0.1704 | 11.389 |
 | Persistence baseline | 22.471 | 0.2228 | 14.735 |
 
 See `metrics.csv` for full precision, validation scores and training times;
@@ -27,8 +28,8 @@ records checkpoint selection. NRMSE is a normalised error, not accuracy.
 | Model | Hourly-total RMSE (vehicles/hour) | NRMSE |
 |---|---:|---:|
 | Regression tree | 58.270 | 0.1444 |
-| LSTM | 51.226 | 0.1270 |
-| GRU | 52.225 | 0.1295 |
+| LSTM | 51.237 | 0.1270 |
+| GRU | 52.123 | 0.1292 |
 | Persistence baseline | 108.907 | 0.2700 |
 
 `recursive_metrics.csv` also includes each of the four horizons. These hourly

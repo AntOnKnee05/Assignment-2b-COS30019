@@ -32,7 +32,7 @@ The launcher creates the Python environment, installs dependencies, prepares mis
 3. Click **Train all 3 models** and leave the app open.
 4. Follow the progress log. The evaluation table appears when training completes.
 
-Models are saved locally and reused after restarting. They have already been trained on this development machine. Each new clone needs its own training run because generated artifacts are excluded from Git. Retraining creates a new run; the active run changes only after all three models train successfully.
+**Trained models are included.** The shared team run `artifacts/run_20261110_115746_770832/` is committed, so a fresh clone can find routes and predict traffic without training first; the numbers in [results](results/) come from this run. Training is optional and still supported: retraining creates a new local run (not tracked by Git) and the active run changes only after all three models train successfully. Commit a new shared run only when the team agrees to replace the official numbers.
 
 ### Find routes
 

@@ -25,7 +25,7 @@
     "intersection_delay_seconds": 30
   },
   "versions": {
-    "python": "3.13.14",
+    "python": "3.14.7",
     "torch": "2.15.0+cpu",
     "sklearn": "1.9.1",
     "numpy": "2.5.4"
@@ -38,5 +38,5 @@
   },
   "evaluation": "rolling one-step, actual observed history; no test-target inputs",
   "third_model_approval": "Regression tree: pending tutor confirmation",
-  "run": "run_20261104_201257_882451"
+  "run": "run_20261110_115746_770832"
 }
