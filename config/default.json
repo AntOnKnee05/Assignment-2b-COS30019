@@ -19,7 +19,7 @@
   "departure": "2006-10-30T08:00",
   "routes": 5,
   "flow_site": "destination",
-  "flow_aggregation": "sum",
+  "flow_aggregation": "mean",
   "speed_limit_kmh": 60,
   "intersection_delay_seconds": 30
 }

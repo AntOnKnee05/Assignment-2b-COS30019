@@ -45,7 +45,7 @@ The launcher creates the Python environment, installs dependencies, prepares mis
 
 Use 15-minute boundaries (00, 15, 30 or 45). Dates before the training cutoff are rejected. Missing history and future dates use training-only seasonal fallback inputs; the status bar reports their count. These are planning estimates, not live traffic.
 
-Defaults use destination-site traffic, summed across approaches, a 60 km/h speed limit and 30 seconds delay per edge. Source-site flow and mean-approach aggregation are available for sensitivity checks; these change the assumptions.
+Defaults use destination-site traffic averaged across the site's detectors (mean approach flow), a 60 km/h speed limit and 30 seconds delay per edge. Source-site flow and summed (total site) flow are available for sensitivity checks; these change the assumptions.
 
 ### Predict traffic
 
@@ -138,8 +138,8 @@ The second command needs trained models. It verifies 15 real-data scenarios acro
 - Training: 1-21 October; validation: 22-26 October; test: 27-31 October. Training-only scalers and profiles; contiguous per-detector windows.
 - The road graph is a simplified bidirectional corridor graph, not an authoritative navigation map. Unmeasured sites are collapsed; turn restrictions and freeway ramps are omitted. Straight-line distances can underestimate road distances.
 - The brief uses destination flow; the conversion guide says source flow. Both are configurable; destination is the default.
-- The flow equation has no real solution above about 1,500 vehicles/hour. We saturate at its turning-point speed (about 32 km/h) and report affected edges. Summed approaches often exceed this threshold: 105 of 112 directed edges in the default example. This limits route sensitivity to model differences.
-- Mean-approach aggregation is available as a different assumption, not an equivalent physical model.
+- The flow equation has no real solution above about 1,500 vehicles/hour (one road's capacity in the conversion guide). Flow is therefore taken as the mean of a site's detectors, roughly one approach. In the default example (2000 to 3002, GRU) no directed edge exceeds capacity at 03:00, 08:00, 12:00 or 17:00, and the best route time varies with traffic (12.3 to 13.7 minutes).
+- Summing all detectors gives total site volume (about 5,000 vehicles/hour at site 2000 at 08:00). It is still selectable, but saturates 105 of 112 edges at peak, fixing those speeds at the turning point (about 32 km/h) so predictions barely affect routes. Saturated edges are flagged and counted.
 - Edge weights stay fixed for the departure hour. One 30-second delay per traversed edge; no extra departure delay. Identical endpoints cost zero.
 - Future dates use seasonal context when observations are unavailable. Only October 2006 was available for evaluation; no real-time data is connected.
 - Regression-tree tutor approval remains pending. The report is intentionally excluded.
@@ -154,7 +154,7 @@ The second command needs trained models. It verifies 15 real-data scenarios acro
 | Invalid time | Use ISO date and a 15-minute boundary on/after the training cutoff. |
 | Training lock after an interrupted process | Confirm no training is running, then remove `artifacts/training.lock` and retry. |
 | Processed data changed | Retrain to match the new CSV. |
-| Many saturated edges | Review the conversion and aggregation assumptions above. |
+| Many saturated edges | Check that approach aggregation is `mean`; `sum` exceeds the guide's capacity at most sites. |
 
 ## Acknowledgements
 

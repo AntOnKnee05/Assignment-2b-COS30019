@@ -55,8 +55,9 @@ zero coordinates are excluded. Haversine straight-line lengths approximate road
 lengths. These coordinates are not corrected against a modern road map.
 
 Four recursive predictions per detector are summed into hourly counts and then
-aggregated per site. Default sum aggregation follows the site-volume
-interpretation; mean is exposed as a sensitivity alternative. Destination flow
+aggregated per site. Default mean aggregation gives roughly one approach's
+flow, the scale of the guide's per-road capacity; sum (total site volume) is
+exposed as a sensitivity alternative. Destination flow
 is the default from the brief; source flow is configurable because the conversion
 guide states that convention instead.
 
@@ -65,8 +66,9 @@ For `q = -a*v^2 + b*v`, with `a=1.4648375` and `b=93.75`, the upper root is
 root is used and capped at 60 km/h. Capacity is `b*b/(4*a)` (about 1500). Above
 capacity the quadratic has no real root, so flow is saturated at capacity and
 the edge is flagged. This is an explicit numerical extension, not a measured
-congestion model. Summed approaches frequently saturate and can diminish the
-effect of different predictors on route choice.
+congestion model. With the default mean aggregation no edge saturates in the
+checked scenarios; summed approaches saturate most edges at peak and diminish
+the effect of different predictors on route choice.
 
 Edge minutes = distance_km / speed_kmh * 60 + delay_seconds / 60.
 Departure-hour weights are static. One delay per edge includes the destination

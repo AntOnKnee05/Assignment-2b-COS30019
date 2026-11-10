@@ -82,7 +82,14 @@ class Predictor:
             x = np.column_stack([x[:, 1:], normalized])
         return np.array(forecasts).T, fallback
 
-    def site_flows(self, stamp, aggregation='sum'):
+    def site_flows(self, stamp, aggregation='mean'):
+        """Predicted vehicles/hour per site for the hour after `stamp`.
+
+        'mean' (default) averages the site's detectors, giving roughly one
+        approach's flow - the scale the conversion guide's 1,500 veh/h capacity
+        describes. 'sum' gives total site volume, which usually exceeds that
+        capacity and saturates the speed curve.
+        """
         if aggregation not in ('sum', 'mean'):
             raise ValueError('Flow aggregation must be sum or mean')
         predictions, fallback = self.forecast(stamp, 4)

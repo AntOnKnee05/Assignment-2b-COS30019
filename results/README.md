@@ -40,12 +40,18 @@ scores should not be compared directly with one-step scores in different units.
 - 41 automated tests passed; full output is in `software_tests.txt`.
 - 15 real-data end-to-end scenarios passed; `route_scenarios.csv` includes model,
   inputs, route count, best path, cost, created nodes and fallback/saturation counts.
+  With the default mean approach flow, no scenario has a capacity-saturated edge
+  (previously 83-106 of 112 at daytime departures under summed flow).
 - Top-five routes on a small graph were checked against exhaustive enumeration.
 - Real-data shortest routes were checked against independent Dijkstra. All route
   results were checked for valid edges, uniqueness, no loops and sorted costs.
 - Python modules compiled successfully. The GUI launched and its initial layout
-  was visually inspected. Further interactive inspection was stopped when the
-  user pressed Escape; a complete manual GUI acceptance pass is not claimed.
+  was visually inspected. On 10 November 2026 every GUI action was also driven
+  by script against the committed models: Find routes for all three models
+  (5 routes each), Save route results, Predict next hour (chart drawn), Load
+  evaluation (8 rows), an off-boundary time (rejected with a message) and
+  identical origin/destination (one 0-minute route). A full manual click-through
+  with screenshots is still to be done for the report.
 
 ## Reproduce
 
