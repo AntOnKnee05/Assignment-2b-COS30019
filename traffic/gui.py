@@ -114,20 +114,37 @@ class App(tk.Tk):
         """Tab that runs the 15 test scenarios with each model and shows each run's checks and routes."""
         form = ttk.Frame(self.scenarios_tab); form.pack(fill='x', padx=10, pady=(10, 0))
         ttk.Button(form, text='Run 15 scenarios', command=self.run_scenarios).pack(side='left', padx=5)
+        ttk.Label(form, text='Show').pack(side='left', padx=(18, 4))
+        self.scenario_filter = tk.StringVar(value='All models')
+        model_filter = ttk.Combobox(form, textvariable=self.scenario_filter, values=['All models', 'TREE', 'LSTM', 'GRU'],
+                                    state='readonly', width=12)
+        model_filter.pack(side='left')
+        model_filter.bind('<<ComboboxSelected>>', lambda event: self.refresh_scenario_table())
         self.scenario_summary = tk.StringVar(value='15 distinct scenarios x 3 models (45 runs): normal trips, edge cases, alternative '
-                                             'settings and invalid requests. Routes are checked independently; where real counts '
-                                             'exist, predictions are compared with actual traffic.')
-        ttk.Label(form, textvariable=self.scenario_summary, wraplength=900).pack(side='left', padx=12)
-        columns = [('scenario', '#', 35), ('description', 'Scenario', 300), ('model', 'Model', 60), ('trip', 'Origin > Dest', 110),
-                   ('departure', 'Departure', 130), ('routes', 'Routes', 60), ('best', 'Best min', 75),
-                   ('flow', 'Flow MAE', 75), ('lost', 'Min lost', 70), ('checks', 'Checks', 60), ('result', 'Result', 60)]
-        self.scenario_table = ttk.Treeview(self.scenarios_tab, columns=[c[0] for c in columns], show='headings', height=8)
+                                             'settings and invalid requests. Each scenario lists TREE, LSTM and GRU together; '
+                                             'scroll the table or pick one model under Show.')
+        summary = ttk.Label(self.scenarios_tab, textvariable=self.scenario_summary, wraplength=1100)
+        summary.pack(fill='x', padx=15, pady=(6, 0))
+        summary.bind('<Configure>', lambda event: summary.configure(wraplength=max(200, event.width - 10)))
+        columns = [('scenario', '#', 30), ('description', 'Scenario', 190), ('model', 'Model', 55), ('trip', 'Origin > Dest', 100),
+                   ('departure', 'Departure', 115), ('routes', 'Routes', 52), ('best', 'Best min', 68),
+                   ('flow', 'Flow MAE', 68), ('lost', 'Min lost', 62), ('checks', 'Checks', 52), ('result', 'Result', 55)]
+        table_frame = ttk.Frame(self.scenarios_tab); table_frame.pack(fill='x', padx=14, pady=8)
+        self.scenario_table = ttk.Treeview(table_frame, columns=[c[0] for c in columns], show='headings', height=9)
         for key, label, width in columns:
             self.scenario_table.heading(key, text=label)
-            self.scenario_table.column(key, width=width, anchor='w' if key == 'description' else 'center', stretch=key == 'description')
+            self.scenario_table.column(key, width=width, minwidth=width if key != 'description' else 120,
+                                       anchor='w' if key == 'description' else 'center', stretch=key == 'description')
         self.scenario_table.tag_configure('PASS', background='#e3f4ea')
         self.scenario_table.tag_configure('FAIL', background='#f9dedb')
-        self.scenario_table.pack(fill='x', padx=14, pady=8)
+        # A white gap row between scenarios is not possible in ttk; alternate shades per scenario instead.
+        self.scenario_table.tag_configure('PASS_alt', background='#cfeadb')
+        self.scenario_table.tag_configure('FAIL_alt', background='#f1c7c2')
+        scroll_y = ttk.Scrollbar(table_frame, orient='vertical', command=self.scenario_table.yview)
+        scroll_x = ttk.Scrollbar(table_frame, orient='horizontal', command=self.scenario_table.xview)
+        self.scenario_table.configure(yscrollcommand=scroll_y.set, xscrollcommand=scroll_x.set)
+        self.scenario_table.grid(row=0, column=0, sticky='nsew'); scroll_y.grid(row=0, column=1, sticky='ns')
+        scroll_x.grid(row=1, column=0, sticky='ew'); table_frame.columnconfigure(0, weight=1)
         self.scenario_table.bind('<<TreeviewSelect>>', lambda event: self.show_scenario())
         lower = ttk.Frame(self.scenarios_tab); lower.pack(fill='both', expand=True, padx=14, pady=(0, 8))
         self.scenario_map = tk.Canvas(lower, background='#ffffff', highlightthickness=0)
@@ -155,15 +172,34 @@ class App(tk.Tk):
 
     def add_scenario(self, item):
         row, result, checks = item
-        number = lambda key: f'{row[key]:.2f}' if row[key] != '' else '-'
-        best = 'rejected' if row['error'] else number('best_minutes')
-        iid = f'{row["scenario"]}-{row["model"]}'; self.scenario_results[iid] = (row, result, checks)
-        self.scenario_table.insert('', 'end', iid=iid, tags=(row['result'],), values=(
-            row['scenario'], row['description'], row['model'], f'{row["origin"]} > {row["destination"]}',
-            row['departure'].replace('T', ' '), row['routes'] if row['routes'] != '' else '-', best,
-            number('flow_mae'), number('minutes_lost'), row['checks_passed'], row['result']))
-        if len(self.scenario_results) == 1:
-            self.scenario_table.selection_set(iid)
+        self.scenario_results[f'{row["scenario"]}-{row["model"]}'] = (row, result, checks)
+        self.refresh_scenario_table()
+
+    def refresh_scenario_table(self):
+        """Redraw the table grouped by scenario (TREE, LSTM, GRU together), honouring the model filter."""
+        from .check_scenarios import MODELS
+        selected = self.scenario_table.selection()
+        keep = selected[0] if selected else None
+        self.scenario_table.delete(*self.scenario_table.get_children())
+        wanted = self.scenario_filter.get()
+        items = sorted(self.scenario_results.items(), key=lambda kv: (kv[1][0]['scenario'], MODELS.index(kv[1][0]['model'])))
+        for iid, (row, _, _) in items:
+            if wanted != 'All models' and row['model'] != wanted:
+                continue
+            number = lambda key: f'{row[key]:.2f}' if row[key] != '' else '-'
+            best = 'rejected' if row['error'] else number('best_minutes')
+            tag = row['result'] + ('_alt' if row['scenario'] % 2 == 0 else '')
+            self.scenario_table.insert('', 'end', iid=iid, tags=(tag,), values=(
+                row['scenario'], row['description'], row['model'], f'{row["origin"]} > {row["destination"]}',
+                row['departure'].replace('T', ' '), row['routes'] if row['routes'] != '' else '-', best,
+                number('flow_mae'), number('minutes_lost'), row['checks_passed'], row['result']))
+        children = self.scenario_table.get_children()
+        if keep in children:
+            self.scenario_table.selection_set(keep); self.scenario_table.see(keep)
+        elif children:
+            self.scenario_table.selection_set(children[0])
+        else:
+            self.show_scenario()
 
     def scenarios_done(self, rows):
         passed = sum(r['result'] == 'PASS' for r in rows)
@@ -184,7 +220,21 @@ class App(tk.Tk):
             write('end', f'{row["description"]}\n{row["model"]}, {row["origin"]} > {row["destination"]}, '
                          f'{row["departure"].replace("T", " ")}\nFlow: {row["flow_site"]} site, {row["flow_aggregation"]}\n'
                          f'Expected: {row["expected"]}\n\n')
-            write('end', 'Checks\n', 'head')
+            from .check_scenarios import MODELS
+            write('end', 'All models for this scenario\n', 'head')
+            write('end', f'  {"Model":<6}{"Best min":>9}{"Flow MAE":>10}{"Min lost":>10}  Result\n')
+            for model in MODELS:
+                other = self.scenario_results.get(f'{row["scenario"]}-{model}')
+                if not other:
+                    write('end', f'  {model:<6}{"(not run yet)":>29}\n'); continue
+                o = other[0]
+                cell = lambda key: f'{o[key]:.2f}' if o[key] != '' else '-'
+                best = 'rejected' if o['error'] else cell('best_minutes')
+                marker = '>' if model == row['model'] else ' '
+                write('end', f'{marker} {model:<6}{best:>9}{cell("flow_mae"):>10}{cell("minutes_lost"):>10}  {o["result"]}\n',
+                      'ok' if o['result'] == 'PASS' else 'bad')
+            write('end', '\n')
+            write('end', f'Checks ({row["model"]})\n', 'head')
             for name, ok in checks.items():
                 write('end', ('  PASS  ' if ok else '  FAIL  ') + name + '\n', 'ok' if ok else 'bad')
             if row['error']:
