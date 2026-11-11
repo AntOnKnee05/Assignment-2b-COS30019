@@ -11,6 +11,7 @@ import numpy as np
 
 from traffic.dataset import build_windows, calendar, read_series, score
 from traffic.network import CAPACITY, haversine, load_network, travel_time, weighted_edges
+from traffic.part_a import METHODS
 from traffic.routing import top_k_routes
 from traffic.settings import load_config
 
@@ -155,6 +156,36 @@ class RouteTests(unittest.TestCase):
         nodes, edges = graph(); edges[0]['minutes'] = -1
         with self.assertRaises(ValueError):
             top_k_routes(nodes, edges, '0', '4')
+
+    def test_every_part_a_method_gives_valid_routes(self):
+        """All six methods: distinct loopless routes, correct ends, sorted, never cheaper than A*."""
+        nodes, edges = graph(); costs = {(e['source'], e['target']): e['minutes'] for e in edges}
+        best = top_k_routes(nodes, edges, '0', '4', 5, 'AS')[0]
+        for method in METHODS:
+            with self.subTest(method=method):
+                routes, created = top_k_routes(nodes, edges, '0', '4', 5, method)
+                paths = [tuple(r['path']) for r in routes]
+                minutes = [r['minutes'] for r in routes]
+                self.assertEqual(len(routes), len(best))
+                self.assertEqual(len(set(paths)), len(paths))
+                self.assertTrue(all(p[0] == '0' and p[-1] == '4' and len(set(p)) == len(p) for p in paths))
+                self.assertEqual(minutes, sorted(minutes))
+                self.assertGreaterEqual(minutes[0], best[0]['minutes'] - 1e-9)
+                for p, m in zip(paths, minutes):
+                    self.assertAlmostEqual(sum(costs[a, b] for a, b in zip(p, p[1:])), m)
+                self.assertGreater(created, 0)
+
+    def test_every_part_a_method_handles_unreachable_and_same_site(self):
+        nodes, edges = graph()
+        for method in METHODS:
+            with self.subTest(method=method):
+                self.assertEqual(top_k_routes(nodes, edges, '4', '0', 5, method)[0], [])
+                self.assertEqual(top_k_routes(nodes, edges, '0', '0', 5, method)[0], [{'path': ['0'], 'minutes': 0}])
+
+    def test_unknown_search_method_rejected(self):
+        nodes, edges = graph()
+        with self.assertRaises(ValueError):
+            top_k_routes(nodes, edges, '0', '4', 5, 'UCS')
 
     def test_actual_network_connected_and_finite(self):
         nodes, edges = load_network(load_config())

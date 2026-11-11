@@ -83,6 +83,18 @@ all simple search-tree paths. Its minimum edge-cost/distance scale preserves an
 admissible distance heuristic. `routing.py` implements Yen's algorithm around
 this A* solver to produce up to five unique loopless routes in cost order.
 
+The other five Part A methods (BFS, DFS, GBFS, CUS1, CUS2) are ported
+unchanged and registered in `part_a/__init__.py`; `search_method` chooses which
+one Yen's algorithm calls. Yen's algorithm only returns the k cheapest routes
+when its solver returns cheapest paths, so A* stays the default and the 15
+scenarios always use it. With another method the result is still up to five
+distinct loopless routes, sorted by travel time, but they may be slower.
+Before each search, a plain reachability check skips spur problems with no
+route; DFS, GBFS, CUS1 and CUS2 only reject repeats on the current path, so
+without it they would enumerate every loopless path before giving up. This
+also lowers A*'s node counts slightly compared with earlier result snapshots.
+`compare_search.py` measures every method on all ordered site pairs.
+
 ## Output files
 
 | File in the active artifacts run | Contents |

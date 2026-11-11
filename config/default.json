@@ -18,6 +18,7 @@
   "destination": "3002",
   "departure": "2006-10-30T08:00",
   "routes": 5,
+  "search_method": "AS",
   "flow_site": "destination",
   "flow_aggregation": "mean",
   "speed_limit_kmh": 60,

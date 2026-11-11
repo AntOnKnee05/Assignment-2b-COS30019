@@ -16,6 +16,8 @@ def load_config(path=None):
     for key in ('epochs', 'patience', 'batch_size', 'hidden_size', 'threads'):
         if int(config[key]) < 1:
             raise ValueError(f'{key} must be positive')
+    if config.get('search_method', 'AS') not in ('AS', 'BFS', 'DFS', 'GBFS', 'CUS1', 'CUS2'):
+        raise ValueError('search_method must be AS, BFS, DFS, GBFS, CUS1 or CUS2')
     if not 0 < float(config['learning_rate']) < 1:
         raise ValueError('learning_rate must be between zero and one')
     return config

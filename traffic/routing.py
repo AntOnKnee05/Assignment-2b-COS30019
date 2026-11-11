@@ -1,15 +1,38 @@
-"""Yen's loopless top-k paths using the team's Part A A* as its shortest-path solver."""
+"""Yen's loopless top-k paths using a Part A search method as its path solver.
+
+Yen's algorithm returns the k cheapest routes only when its solver returns
+cheapest paths, which among the Part A methods only A* (AS) guarantees.
+Other methods still give up to k distinct loopless routes, sorted by travel
+time, so their route quality and search effort can be compared with A*.
+"""
 import heapq
 import math
-from .part_a.astar import astar
+from .part_a import METHODS
 from .part_a.problem import RouteProblem
 
 
-def top_k_routes(nodes, edges, origin, destination, k=5):
+def _reachable(adjacency, start, goal):
+    """Plain graph search. Path-checking Part A methods would otherwise try
+    every loopless path before reporting that no route exists."""
+    seen, stack = {start}, [start]
+    while stack:
+        node = stack.pop()
+        if node == goal:
+            return True
+        for nxt in adjacency.get(node, ()):
+            if nxt not in seen:
+                seen.add(nxt); stack.append(nxt)
+    return False
+
+
+def top_k_routes(nodes, edges, origin, destination, k=5, method='AS'):
     if origin not in nodes or destination not in nodes:
         raise ValueError('Origin and destination must be known SCATS sites')
     if not 1 <= k <= 5:
         raise ValueError('Choose between 1 and 5 routes')
+    if method not in METHODS:
+        raise ValueError(f'Search method must be one of {", ".join(METHODS)}')
+    search = METHODS[method]
     costs = {}
     for edge in edges:
         a, b, cost = edge['source'], edge['target'], edge['minutes']
@@ -27,7 +50,12 @@ def top_k_routes(nodes, edges, origin, destination, k=5):
         remaining = {site: xy for site, xy in coordinates.items() if site not in banned_nodes}
         allowed = [(a, b, value) for (a, b), value in costs.items()
                    if a in remaining and b in remaining and (a, b) not in banned_edges]
-        result = astar(RouteProblem(remaining, allowed, start, [destination]))
+        adjacency = {}
+        for a, b, _ in allowed:
+            adjacency.setdefault(a, []).append(b)
+        if not _reachable(adjacency, start, destination):
+            return None
+        result = search(RouteProblem(remaining, allowed, start, [destination]))
         total_created += result.nodes_created
         return tuple(result.goal.path()) if result.goal else None
 
@@ -53,4 +81,6 @@ def top_k_routes(nodes, edges, origin, destination, k=5):
         if not candidates:
             break
         accepted.append(heapq.heappop(candidates)[1])
+    # With A* this order is already by cost; other solvers' first route may not be cheapest.
+    accepted.sort(key=cost)
     return [{'path': list(path), 'minutes': cost(path)} for path in accepted], total_created

@@ -43,6 +43,8 @@ The launcher creates the Python environment, installs dependencies, prepares mis
 5. Select a result row to highlight its path. Times are in minutes.
 6. Click **Save route results** to export `outputs/gui_routes.json`.
 
+**Search method** picks which Part A search Yen's algorithm uses: AS (default), BFS, DFS, GBFS, CUS1 or CUS2. Only AS guarantees the fastest routes; the others are there for comparison, and the status bar shows how many search nodes each one created.
+
 Use 15-minute boundaries (00, 15, 30 or 45). Dates before the training cutoff are rejected. Missing history and future dates use training-only seasonal fallback inputs; the status bar reports their count. These are planning estimates, not live traffic.
 
 Defaults use destination-site traffic averaged across the site's detectors (mean approach flow), a 60 km/h speed limit and 30 seconds delay per edge. Source-site flow and summed (total site) flow are available for sensitivity checks; these change the assumptions.
@@ -91,7 +93,15 @@ Add `--epochs 20` to change the maximum epochs. One epoch is suitable for a smok
 .\.venv\Scripts\python.exe -m traffic.route --origin 2000 --destination 3002 --departure 2006-10-30T08:00 --model GRU --routes 5
 ```
 
-Models: `TREE`, `LSTM`, `GRU`. Results print and save to `outputs/routes.json`.
+Models: `TREE`, `LSTM`, `GRU`. Add `--method BFS` (or `DFS`, `GBFS`, `CUS1`, `CUS2`; default `AS`) to choose the Part A search. Results print and save to `outputs/routes.json`.
+
+### Compare the Part A search methods
+
+```powershell
+.\.venv\Scripts\python.exe -m traffic.compare_search --departure 2006-10-30T08:00 --model GRU
+```
+
+Routes all 1,560 ordered site pairs with each of the six methods and saves `results/search_comparison.csv`: nodes created, time per query, how often the best route matches A*, and minutes lost against A*.
 
 ### Launch GUI manually
 
@@ -120,6 +130,7 @@ Edit [config/default.json](config/default.json) for persistent defaults. GUI cha
 | `window` | Prior 15-minute observations; 12 means 3 hours |
 | `epochs`, `patience` | Maximum epochs and early stopping |
 | `hidden_size`, `batch_size`, `learning_rate`, `seed`, `threads` | Training parameters |
+| `search_method` | Part A search inside Yen's algorithm: `AS` (default, optimal), `BFS`, `DFS`, `GBFS`, `CUS1`, `CUS2` |
 | `flow_site` | `destination` or `source` |
 | `flow_aggregation` | `sum` or `mean` of approaches |
 | `graph` | Explicit simplified corridor graph |

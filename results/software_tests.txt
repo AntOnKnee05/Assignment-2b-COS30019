@@ -26,11 +26,15 @@ test_scaler_and_profiles_ignore_future (test_system.DataTests.test_scaler_and_pr
 test_target_not_in_history (test_system.DataTests.test_target_not_in_history) ... ok
 test_zero_mean_nrmse_undefined (test_system.DataTests.test_zero_mean_nrmse_undefined) ... ok
 test_actual_network_connected_and_finite (test_system.RouteTests.test_actual_network_connected_and_finite) ... ok
+test_every_part_a_method_gives_valid_routes (test_system.RouteTests.test_every_part_a_method_gives_valid_routes)
+All six methods: distinct loopless routes, correct ends, sorted, never cheaper than A*. ... ok
+test_every_part_a_method_handles_unreachable_and_same_site (test_system.RouteTests.test_every_part_a_method_handles_unreachable_and_same_site) ... ok
 test_invalid_route_count (test_system.RouteTests.test_invalid_route_count) ... ok
 test_negative_edge_rejected (test_system.RouteTests.test_negative_edge_rejected) ... ok
 test_routes_are_loopless (test_system.RouteTests.test_routes_are_loopless) ... ok
 test_same_origin_destination (test_system.RouteTests.test_same_origin_destination) ... ok
 test_top_five_match_exhaustive_oracle (test_system.RouteTests.test_top_five_match_exhaustive_oracle) ... ok
+test_unknown_search_method_rejected (test_system.RouteTests.test_unknown_search_method_rejected) ... ok
 test_unknown_site (test_system.RouteTests.test_unknown_site) ... ok
 test_unreachable (test_system.RouteTests.test_unreachable) ... ok
 test_capacity_and_saturation (test_system.TravelTests.test_capacity_and_saturation) ... ok
@@ -41,6 +45,6 @@ test_invalid_inputs (test_system.TravelTests.test_invalid_inputs) ... ok
 test_time_increases_with_flow (test_system.TravelTests.test_time_increases_with_flow) ... ok
 
 ----------------------------------------------------------------------
-Ran 41 tests in 1.451s
+Ran 44 tests in 1.033s
 
 OK

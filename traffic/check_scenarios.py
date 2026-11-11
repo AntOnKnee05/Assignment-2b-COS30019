@@ -195,7 +195,9 @@ def actual_comparison(predictor, cfg, result):
 def run_scenario(number, scenario, model, predictor, config):
     """Run one scenario with one model. Returns (row, result or None, checks)."""
     cfg = {**config, **scenario.get('settings', {}), 'origin': scenario['origin'],
-           'destination': scenario['destination'], 'departure': scenario['departure'], 'model': model, 'routes': 5}
+           'destination': scenario['destination'], 'departure': scenario['departure'], 'model': model, 'routes': 5,
+           # Checks compare against the true cheapest paths, which only A* guarantees.
+           'search_method': 'AS'}
     row = {'scenario': number, 'description': scenario['description'], 'model': model,
            'origin': cfg['origin'], 'destination': cfg['destination'], 'departure': cfg['departure'],
            'flow_site': cfg['flow_site'], 'flow_aggregation': cfg['flow_aggregation'],
