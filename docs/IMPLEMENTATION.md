@@ -67,7 +67,7 @@ root is used and capped at 60 km/h. Capacity is `b*b/(4*a)` (about 1500). Above
 capacity the quadratic has no real root, so flow is saturated at capacity and
 the edge is flagged. This is an explicit numerical extension, not a measured
 congestion model. With the default mean aggregation no edge saturates in the
-checked scenarios; summed approaches saturate most edges at peak and diminish
+mean-flow scenarios; summed approaches saturate most edges at peak and diminish
 the effect of different predictors on route choice.
 
 Edge minutes = distance_km / speed_kmh * 60 + delay_seconds / 60.

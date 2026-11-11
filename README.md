@@ -57,7 +57,7 @@ Click **Load evaluation** on Train & evaluate. RMSE and MAE are in vehicles per 
 
 ### Run the 15 test scenarios
 
-Open **Test scenarios** and click **Run 15 scenarios**. Five trips (peak, off-peak, weekend, midnight, same origin/destination) run with each of the three models. Each row turns green (PASS) or red (FAIL) as it finishes. Select a row to draw its best route (solid) and other routes (dashed) and list its six checks: best route equals an independent Dijkstra search, correct endpoints, no loops, no duplicates, sorted by time, and route time equals the sum of its edges. The aggregation and flow-site settings on Find routes apply. The command-line version, `python -m traffic.check_scenarios`, saves the same results to `results/route_scenarios.csv`.
+Open **Test scenarios** and click **Run 15 scenarios**. Fifteen distinct scenarios run with each of the three models (45 runs): normal trips (morning/evening peak, weekend, midnight, reverse direction), edge cases (same origin/destination, adjacent sites, a dead-end site with only one possible route, a forecast hour crossing midnight, the earliest permitted date, a date after the data), alternative settings (summed flow, source-site flow) and invalid requests that must be rejected (off-boundary time, date inside training, unknown site). Each row turns green (PASS) or red (FAIL) as it finishes. Select a row to draw its best route (solid) and other routes (dashed) and list its checks: best route equals an independent Dijkstra search, routes equal the cheapest loopless paths from an exhaustive search, expected route count, correct endpoints, no loops, no duplicates, sorted by time, and route time equals the sum of its edges. Rejection scenarios check that an explanatory error is shown instead. Where recorded counts exist for the forecast hour, the row also shows the model's site-flow error (MAE, vehicles/hour) and the minutes its best route loses against the best route in hindsight under actual traffic. Base aggregation and flow-site settings come from Find routes; scenarios 11 and 12 override them. The command-line version, `python -m traffic.check_scenarios`, saves the same results to `results/route_scenarios.csv`.
 
 ## 3. Run individual commands
 
@@ -135,7 +135,7 @@ Processed CSV changes require retraining. Only load trusted model artifacts: job
 .\.venv\Scripts\python.exe -m traffic.check_scenarios
 ```
 
-The second command needs trained models. It verifies 15 real-data scenarios across all models and writes `results/route_scenarios.csv`. Unit tests cover data gaps/leakage, metrics, model inference, conversion and routes. Saved evaluation/test evidence is in [results](results/), not an assignment report.
+The second command needs trained models. It verifies 15 real-data scenarios with all three models (45 runs) and writes `results/route_scenarios.csv`. Unit tests cover data gaps/leakage, metrics, model inference, conversion and routes. Saved evaluation/test evidence is in [results](results/), not an assignment report.
 
 ## 6. Assumptions to understand
 

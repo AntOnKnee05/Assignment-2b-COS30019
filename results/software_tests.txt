@@ -41,6 +41,6 @@ test_invalid_inputs (test_system.TravelTests.test_invalid_inputs) ... ok
 test_time_increases_with_flow (test_system.TravelTests.test_time_increases_with_flow) ... ok
 
 ----------------------------------------------------------------------
-Ran 41 tests in 1.322s
+Ran 41 tests in 1.451s
 
 OK

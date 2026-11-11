@@ -111,15 +111,16 @@ class App(tk.Tk):
         self.log.pack(fill='both', expand=True, padx=15, pady=10)
 
     def build_scenarios(self):
-        """Tab that runs the 15 end-to-end test scenarios and shows each one's checks and routes."""
+        """Tab that runs the 15 test scenarios with each model and shows each run's checks and routes."""
         form = ttk.Frame(self.scenarios_tab); form.pack(fill='x', padx=10, pady=(10, 0))
         ttk.Button(form, text='Run 15 scenarios', command=self.run_scenarios).pack(side='left', padx=5)
-        self.scenario_summary = tk.StringVar(value='5 trips x 3 models. Each predicts traffic, finds up to 5 routes and '
-                                             'checks them independently (Dijkstra, loops, duplicates, ordering, costs).')
+        self.scenario_summary = tk.StringVar(value='15 distinct scenarios x 3 models (45 runs): normal trips, edge cases, alternative '
+                                             'settings and invalid requests. Routes are checked independently; where real counts '
+                                             'exist, predictions are compared with actual traffic.')
         ttk.Label(form, textvariable=self.scenario_summary, wraplength=900).pack(side='left', padx=12)
-        columns = [('scenario', '#', 40), ('description', 'Trip', 300), ('model', 'Model', 70), ('trip', 'Origin > Dest', 120),
-                   ('departure', 'Departure', 140), ('routes', 'Routes', 65), ('best', 'Best min', 80),
-                   ('checks', 'Checks', 70), ('result', 'Result', 70)]
+        columns = [('scenario', '#', 35), ('description', 'Scenario', 300), ('model', 'Model', 60), ('trip', 'Origin > Dest', 110),
+                   ('departure', 'Departure', 130), ('routes', 'Routes', 60), ('best', 'Best min', 75),
+                   ('flow', 'Flow MAE', 75), ('lost', 'Min lost', 70), ('checks', 'Checks', 60), ('result', 'Result', 60)]
         self.scenario_table = ttk.Treeview(self.scenarios_tab, columns=[c[0] for c in columns], show='headings', height=8)
         for key, label, width in columns:
             self.scenario_table.heading(key, text=label)
@@ -154,41 +155,60 @@ class App(tk.Tk):
 
     def add_scenario(self, item):
         row, result, checks = item
-        best = f'{row["best_minutes"]:.2f}' if row['routes'] else '-'
-        iid = str(row['scenario']); self.scenario_results[iid] = (row, result, checks)
+        number = lambda key: f'{row[key]:.2f}' if row[key] != '' else '-'
+        best = 'rejected' if row['error'] else number('best_minutes')
+        iid = f'{row["scenario"]}-{row["model"]}'; self.scenario_results[iid] = (row, result, checks)
         self.scenario_table.insert('', 'end', iid=iid, tags=(row['result'],), values=(
             row['scenario'], row['description'], row['model'], f'{row["origin"]} > {row["destination"]}',
-            row['departure'].replace('T', ' '), row['routes'], best, row['checks_passed'], row['result']))
+            row['departure'].replace('T', ' '), row['routes'] if row['routes'] != '' else '-', best,
+            number('flow_mae'), number('minutes_lost'), row['checks_passed'], row['result']))
         if len(self.scenario_results) == 1:
             self.scenario_table.selection_set(iid)
 
     def scenarios_done(self, rows):
         passed = sum(r['result'] == 'PASS' for r in rows)
-        clipped = sum(r['capacity_clipped_edges'] for r in rows)
-        text = (f'{passed}/{len(rows)} scenarios passed. Capacity-saturated edges across all scenarios: {clipped}. '
-                f'Aggregation: {self.vars["flow_aggregation"].get()}. Select a row to see its routes and checks.')
+        clipped = sum(r['capacity_clipped_edges'] or 0 for r in rows)
+        text = (f'{passed}/{len(rows)} runs passed (15 scenarios x 3 models). Capacity-saturated edges across all runs: {clipped}. '
+                f'Base aggregation: {self.vars["flow_aggregation"].get()}. Select a row to see its routes and checks.')
         self.scenario_summary.set(text); self.status.set(text)
 
     def show_scenario(self):
         selected = self.scenario_table.selection()
         row, result, checks = self.scenario_results.get(selected[0], (None, None, None)) if selected else (None, None, None)
-        paths = [r['path'] for r in result['routes']] if result else []
+        paths = [r['path'] for r in result['routes']] if result and not row['error'] else []
         self.draw_network(self.scenario_map, paths[0] if paths else [], paths[1:])
         self.scenario_detail.configure(state='normal'); self.scenario_detail.delete('1.0', 'end')
         if row:
             write = self.scenario_detail.insert
             write('end', f'Scenario {row["scenario"]}: {row["result"]}\n', 'head')
             write('end', f'{row["description"]}\n{row["model"]}, {row["origin"]} > {row["destination"]}, '
-                         f'{row["departure"].replace("T", " ")}\n\n')
+                         f'{row["departure"].replace("T", " ")}\nFlow: {row["flow_site"]} site, {row["flow_aggregation"]}\n'
+                         f'Expected: {row["expected"]}\n\n')
             write('end', 'Checks\n', 'head')
             for name, ok in checks.items():
                 write('end', ('  PASS  ' if ok else '  FAIL  ') + name + '\n', 'ok' if ok else 'bad')
+            if row['error']:
+                write('end', '\nError message shown to the user\n', 'head')
+                write('end', f'  {row["error"]}\n')
+            if not result or row['error']:
+                self.scenario_detail.configure(state='disabled'); return
             write('end', '\nRoutes (best drawn solid, others dashed)\n', 'head')
             for rank, route in enumerate(result['routes'], 1):
                 write('end', f'  {rank}. {route["minutes"]:.2f} min  {" > ".join(route["path"])}\n')
             write('end', f'\nSeasonal fallback inputs: {row["fallback_inputs"]}\n'
                          f'Saturated edges: {row["capacity_clipped_edges"]}/{result["edge_count"]}\n'
                          f'Search nodes created: {row["nodes_created"]}\n')
+            write('end', '\nPrediction vs recorded traffic\n', 'head')
+            if row['flow_mae'] == '':
+                write('end', '  No recorded counts for this hour.\n')
+            else:
+                write('end', f'  Site flow MAE: {row["flow_mae"]:.1f} veh/h ({row["sites_with_actuals"]} sites)\n')
+                if row['minutes_lost'] == '':
+                    write('end', '  Some sites lack counts; route not re-costed.\n')
+                else:
+                    write('end', f'  Best route under actual traffic: {row["route_actual_minutes"]:.2f} min\n'
+                                 f'  Best possible in hindsight: {row["hindsight_best_minutes"]:.2f} min\n'
+                                 f'  Minutes lost: {row["minutes_lost"]:.2f}\n')
         self.scenario_detail.configure(state='disabled')
 
     def selected_config(self):

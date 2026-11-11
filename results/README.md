@@ -38,10 +38,15 @@ scores should not be compared directly with one-step scores in different units.
 ## Software checks
 
 - 41 automated tests passed; full output is in `software_tests.txt`.
-- 15 real-data end-to-end scenarios passed; `route_scenarios.csv` includes model,
-  inputs, route count, best path, cost, created nodes and fallback/saturation counts.
-  With the default mean approach flow, no scenario has a capacity-saturated edge
-  (previously 83-106 of 112 at daytime departures under summed flow).
+- 15 distinct real-data scenarios passed with all three models (45/45 runs):
+  normal trips, edge cases, alternative flow settings and three invalid requests
+  that are correctly rejected. `route_scenarios.csv` includes inputs, expected
+  outcome, route count, best path, cost, created nodes, fallback/saturation
+  counts, any error message, and - where recorded counts exist - site-flow MAE
+  against actual traffic and minutes lost against the hindsight-best route.
+  Under mean flow no scenario saturates an edge; the summed-flow scenario
+  saturates 105 of 112. Every model's best route was also the best route under
+  actual traffic in every scenario that could be re-costed (0.00 minutes lost).
 - Top-five routes on a small graph were checked against exhaustive enumeration.
 - Real-data shortest routes were checked against independent Dijkstra. All route
   results were checked for valid edges, uniqueness, no loops and sorted costs.
