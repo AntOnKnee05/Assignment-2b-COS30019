@@ -1,0 +1,7 @@
+method,optimises,pairs,mean_nodes_created,mean_ms_per_query,best_route_optimal_pct,mean_minutes_lost,max_minutes_lost,same_top_k_as_astar_pct,mean_best_route_sites
+AS,travel time (optimal),1560,594.7,1.699,100.0,0.0,0.0,100.0,5.36
+BFS,fewest intersections,1560,736.4,0.98,98.7,0.005,1.117,66.2,5.35
+DFS,nothing (first route found),1560,10354.2,6.652,37.0,3.656,26.921,2.1,7.33
+GBFS,straight-line closeness (greedy),1560,416.9,1.167,96.7,0.02,2.486,60.3,5.37
+CUS1,fewest intersections (iterative deepening),1560,4608.7,3.839,98.7,0.005,1.117,66.2,5.35
+CUS2,fewest intersections (IDA*),1560,52106.9,40.126,98.7,0.005,1.117,66.2,5.35

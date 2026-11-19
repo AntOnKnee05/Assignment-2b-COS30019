@@ -11,6 +11,7 @@ import tkinter as tk
 from tkinter import messagebox, ttk
 
 from .network import load_network
+from .part_a import METHODS, OPTIMISES
 from .settings import ROOT, load_config
 
 
@@ -65,6 +66,7 @@ class App(tk.Tk):
         self.field(form, 'Time (HH:MM)', 'time', cfg['departure'][11:16], width=10)
         self.field(form, 'Model', 'model', cfg['model'], ['TREE', 'LSTM', 'GRU'], width=10)
         self.field(form, 'Routes', 'routes', cfg['routes'], range(1, 6), width=6)
+        self.field(form, 'Search method', 'search_method', cfg.get('search_method', 'AS'), METHODS, width=7)
         ttk.Button(form, text='Find routes', command=self.find_routes).pack(side='left', padx=10, pady=(20, 0))
         options = ttk.Frame(self.routes_tab); options.pack(fill='x', padx=8)
         self.field(options, 'Use traffic at', 'flow_site', cfg['flow_site'], ['destination', 'source'])
@@ -263,7 +265,7 @@ class App(tk.Tk):
 
     def selected_config(self):
         cfg = dict(self.config_data)
-        for key in ('origin', 'destination', 'model', 'flow_site', 'flow_aggregation'):
+        for key in ('origin', 'destination', 'model', 'search_method', 'flow_site', 'flow_aggregation'):
             cfg[key] = self.vars[key].get()
         cfg['departure'] = self.vars['date'].get() + 'T' + self.vars['time'].get()
         datetime.fromisoformat(cfg['departure'])
@@ -323,7 +325,9 @@ class App(tk.Tk):
             self.table.insert('', 'end', iid=str(index), values=(index + 1, f'{route["minutes"]:.2f}', ' > '.join(route['path'])))
         if result['routes']:
             self.table.selection_set('0')
-        self.status.set(f'{len(result["routes"])} route(s). Seasonal fallback inputs: {result["fallback_history_values"]}. '
+        method = result['search_method']
+        self.status.set(f'{len(result["routes"])} route(s) via {method} ({OPTIMISES[method]}), '
+                        f'{result["nodes_created"]:,} search nodes. Seasonal fallback inputs: {result["fallback_history_values"]}. '
                         f'Capacity saturation: {result["capacity_clipped_edges"]}/{result["edge_count"]} directed edges.')
         self.draw_map()
 

@@ -35,9 +35,28 @@ records checkpoint selection. NRMSE is a normalised error, not accuracy.
 `recursive_metrics.csv` also includes each of the four horizons. These hourly
 scores should not be compared directly with one-step scores in different units.
 
+## Part A search methods as route solver
+
+`search_comparison.csv`: all 1,560 ordered site pairs, GRU, 2006-10-30 08:00,
+top five routes each (`python -m traffic.compare_search`). Minutes lost is the
+best route's time minus A*'s best route time.
+
+| Method | Mean nodes created | ms/query | Best route optimal | Mean / max minutes lost | Same top five as A* |
+|---|---:|---:|---:|---:|---:|
+| AS | 594.7 | 1.7 | 100.0% | 0.000 / 0.00 | 100.0% |
+| BFS | 736.4 | 1.0 | 98.7% | 0.005 / 1.12 | 66.2% |
+| DFS | 10,354.2 | 6.7 | 37.0% | 3.656 / 26.92 | 2.1% |
+| GBFS | 416.9 | 1.2 | 96.7% | 0.020 / 2.49 | 60.3% |
+| CUS1 | 4,608.7 | 3.8 | 98.7% | 0.005 / 1.12 | 66.2% |
+| CUS2 | 52,106.9 | 40.1 | 98.7% | 0.005 / 1.12 | 66.2% |
+
+BFS, CUS1 and CUS2 all minimise intersections, so they pick the same routes;
+on this network fewest intersections is usually also fastest. Timings depend
+on hardware.
+
 ## Software checks
 
-- 41 automated tests passed; full output is in `software_tests.txt`.
+- 44 automated tests passed; full output is in `software_tests.txt`.
 - 15 distinct real-data scenarios passed with all three models (45/45 runs):
   normal trips, edge cases, alternative flow settings and three invalid requests
   that are correctly rejected. `route_scenarios.csv` includes inputs, expected
