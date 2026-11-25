@@ -1,0 +1,73 @@
+model,departure,label,method,optimises,pairs,mean_nodes_created,mean_ms_per_query,best_route_optimal_pct,mean_minutes_lost,max_minutes_lost,same_top_k_as_astar_pct,mean_routes_returned,mean_top_k_gap_minutes,mean_best_route_sites
+TREE,2006-10-30T08:00,Monday morning peak,AS,travel time (optimal),1560,595.5,2.037,100.0,0.0,0.0,100.0,4.95,0.0,5.36
+TREE,2006-10-30T08:00,Monday morning peak,BFS,fewest intersections,1560,735.7,1.143,98.7,0.005,1.107,64.8,4.95,0.091,5.35
+TREE,2006-10-30T08:00,Monday morning peak,DFS,nothing (first route found),1560,10353.3,7.667,37.0,3.687,27.188,2.1,4.95,8.137,7.34
+TREE,2006-10-30T08:00,Monday morning peak,GBFS,straight-line closeness (greedy),1560,416.6,1.234,96.7,0.021,2.537,60.5,4.95,0.101,5.37
+TREE,2006-10-30T08:00,Monday morning peak,CUS1,fewest intersections (iterative deepening),1560,4589.7,3.965,98.7,0.005,1.107,64.8,4.95,0.091,5.35
+TREE,2006-10-30T08:00,Monday morning peak,CUS2,fewest intersections (IDA*),1560,51922.6,44.479,98.7,0.005,1.107,64.8,4.95,0.091,5.35
+TREE,2006-10-30T17:00,Monday evening peak,AS,travel time (optimal),1560,591.0,1.996,100.0,0.0,0.0,100.0,4.95,0.0,5.35
+TREE,2006-10-30T17:00,Monday evening peak,BFS,fewest intersections,1560,735.7,1.063,98.7,0.004,0.999,66.0,4.95,0.086,5.34
+TREE,2006-10-30T17:00,Monday evening peak,DFS,nothing (first route found),1560,10234.0,7.743,37.2,3.627,26.492,2.1,4.95,8.052,7.32
+TREE,2006-10-30T17:00,Monday evening peak,GBFS,straight-line closeness (greedy),1560,418.9,1.326,96.3,0.018,2.344,60.1,4.95,0.101,5.36
+TREE,2006-10-30T17:00,Monday evening peak,CUS1,fewest intersections (iterative deepening),1560,4602.6,4.884,98.7,0.004,0.999,66.0,4.95,0.086,5.34
+TREE,2006-10-30T17:00,Monday evening peak,CUS2,fewest intersections (IDA*),1560,52018.8,42.507,98.7,0.004,0.999,66.0,4.95,0.086,5.34
+TREE,2006-10-28T12:00,Saturday midday,AS,travel time (optimal),1560,583.1,1.866,100.0,0.0,0.0,100.0,4.95,0.0,5.35
+TREE,2006-10-28T12:00,Saturday midday,BFS,fewest intersections,1560,734.9,0.992,98.5,0.004,1.057,65.9,4.95,0.084,5.34
+TREE,2006-10-28T12:00,Saturday midday,DFS,nothing (first route found),1560,10217.1,7.293,37.5,3.541,25.98,2.1,4.95,7.848,7.32
+TREE,2006-10-28T12:00,Saturday midday,GBFS,straight-line closeness (greedy),1560,416.1,1.239,96.9,0.016,2.295,61.7,4.95,0.097,5.35
+TREE,2006-10-28T12:00,Saturday midday,CUS1,fewest intersections (iterative deepening),1560,4590.5,4.044,98.5,0.004,1.057,65.9,4.95,0.084,5.34
+TREE,2006-10-28T12:00,Saturday midday,CUS2,fewest intersections (IDA*),1560,51888.7,43.294,98.5,0.004,1.057,65.9,4.95,0.084,5.34
+TREE,2006-10-29T00:00,Sunday midnight,AS,travel time (optimal),1560,556.4,1.761,100.0,0.0,0.0,100.0,4.95,0.0,5.33
+TREE,2006-10-29T00:00,Sunday midnight,BFS,fewest intersections,1560,731.0,0.992,99.2,0.003,0.859,67.5,4.95,0.07,5.33
+TREE,2006-10-29T00:00,Sunday midnight,DFS,nothing (first route found),1560,10227.2,7.437,38.7,3.265,27.449,2.1,4.95,7.289,7.31
+TREE,2006-10-29T00:00,Sunday midnight,GBFS,straight-line closeness (greedy),1560,415.8,1.247,97.3,0.015,1.838,61.0,4.95,0.097,5.35
+TREE,2006-10-29T00:00,Sunday midnight,CUS1,fewest intersections (iterative deepening),1560,4501.7,3.857,99.2,0.003,0.859,67.5,4.95,0.07,5.33
+TREE,2006-10-29T00:00,Sunday midnight,CUS2,fewest intersections (IDA*),1560,50884.1,42.509,99.2,0.003,0.859,67.5,4.95,0.07,5.33
+LSTM,2006-10-30T08:00,Monday morning peak,AS,travel time (optimal),1560,597.3,1.887,100.0,0.0,0.0,100.0,4.95,0.0,5.36
+LSTM,2006-10-30T08:00,Monday morning peak,BFS,fewest intersections,1560,734.9,1.0,98.8,0.004,1.132,65.9,4.95,0.089,5.35
+LSTM,2006-10-30T08:00,Monday morning peak,DFS,nothing (first route found),1560,10354.9,7.314,37.1,3.689,27.083,2.1,4.95,8.139,7.33
+LSTM,2006-10-30T08:00,Monday morning peak,GBFS,straight-line closeness (greedy),1560,416.7,1.24,96.7,0.02,2.481,60.3,4.95,0.102,5.37
+LSTM,2006-10-30T08:00,Monday morning peak,CUS1,fewest intersections (iterative deepening),1560,4589.0,4.066,98.8,0.004,1.132,65.9,4.95,0.089,5.35
+LSTM,2006-10-30T08:00,Monday morning peak,CUS2,fewest intersections (IDA*),1560,51950.0,43.448,98.8,0.004,1.132,65.9,4.95,0.089,5.35
+LSTM,2006-10-30T17:00,Monday evening peak,AS,travel time (optimal),1560,596.4,1.812,100.0,0.0,0.0,100.0,4.95,0.0,5.39
+LSTM,2006-10-30T17:00,Monday evening peak,BFS,fewest intersections,1560,735.9,1.008,98.5,0.005,1.049,65.1,4.95,0.09,5.39
+LSTM,2006-10-30T17:00,Monday evening peak,DFS,nothing (first route found),1560,10369.1,7.374,37.2,3.663,26.764,2.1,4.95,8.114,7.38
+LSTM,2006-10-30T17:00,Monday evening peak,GBFS,straight-line closeness (greedy),1560,419.0,1.242,96.5,0.018,2.489,60.3,4.95,0.101,5.4
+LSTM,2006-10-30T17:00,Monday evening peak,CUS1,fewest intersections (iterative deepening),1560,4608.9,3.974,98.5,0.005,1.049,65.1,4.95,0.09,5.39
+LSTM,2006-10-30T17:00,Monday evening peak,CUS2,fewest intersections (IDA*),1560,52118.2,42.696,98.5,0.005,1.049,65.1,4.95,0.09,5.39
+LSTM,2006-10-28T12:00,Saturday midday,AS,travel time (optimal),1560,582.2,1.845,100.0,0.0,0.0,100.0,4.95,0.0,5.35
+LSTM,2006-10-28T12:00,Saturday midday,BFS,fewest intersections,1560,735.1,0.983,98.5,0.004,1.052,66.1,4.95,0.082,5.34
+LSTM,2006-10-28T12:00,Saturday midday,DFS,nothing (first route found),1560,10216.9,7.229,37.5,3.531,25.86,2.1,4.95,7.814,7.32
+LSTM,2006-10-28T12:00,Saturday midday,GBFS,straight-line closeness (greedy),1560,416.4,1.261,96.9,0.016,2.292,61.7,4.95,0.097,5.35
+LSTM,2006-10-28T12:00,Saturday midday,CUS1,fewest intersections (iterative deepening),1560,4590.8,3.998,98.5,0.004,1.052,66.1,4.95,0.082,5.34
+LSTM,2006-10-28T12:00,Saturday midday,CUS2,fewest intersections (IDA*),1560,51878.1,42.531,98.5,0.004,1.052,66.1,4.95,0.082,5.34
+LSTM,2006-10-29T00:00,Sunday midnight,AS,travel time (optimal),1560,556.5,1.796,100.0,0.0,0.0,100.0,4.95,0.0,5.33
+LSTM,2006-10-29T00:00,Sunday midnight,BFS,fewest intersections,1560,731.0,1.004,99.2,0.003,0.859,67.5,4.95,0.07,5.33
+LSTM,2006-10-29T00:00,Sunday midnight,DFS,nothing (first route found),1560,10227.2,7.275,38.7,3.265,27.449,2.1,4.95,7.289,7.31
+LSTM,2006-10-29T00:00,Sunday midnight,GBFS,straight-line closeness (greedy),1560,415.8,1.242,97.3,0.015,1.838,61.0,4.95,0.097,5.35
+LSTM,2006-10-29T00:00,Sunday midnight,CUS1,fewest intersections (iterative deepening),1560,4501.7,3.904,99.2,0.003,0.859,67.5,4.95,0.07,5.33
+LSTM,2006-10-29T00:00,Sunday midnight,CUS2,fewest intersections (IDA*),1560,50884.1,41.466,99.2,0.003,0.859,67.5,4.95,0.07,5.33
+GRU,2006-10-30T08:00,Monday morning peak,AS,travel time (optimal),1560,594.7,1.924,100.0,0.0,0.0,100.0,4.95,0.0,5.36
+GRU,2006-10-30T08:00,Monday morning peak,BFS,fewest intersections,1560,736.4,1.054,98.7,0.005,1.117,66.2,4.95,0.089,5.35
+GRU,2006-10-30T08:00,Monday morning peak,DFS,nothing (first route found),1560,10354.2,7.301,37.0,3.656,26.921,2.1,4.95,8.085,7.33
+GRU,2006-10-30T08:00,Monday morning peak,GBFS,straight-line closeness (greedy),1560,416.9,1.241,96.7,0.02,2.486,60.3,4.95,0.101,5.37
+GRU,2006-10-30T08:00,Monday morning peak,CUS1,fewest intersections (iterative deepening),1560,4608.7,4.059,98.7,0.005,1.117,66.2,4.95,0.089,5.35
+GRU,2006-10-30T08:00,Monday morning peak,CUS2,fewest intersections (IDA*),1560,52106.9,42.515,98.7,0.005,1.117,66.2,4.95,0.089,5.35
+GRU,2006-10-30T17:00,Monday evening peak,AS,travel time (optimal),1560,590.0,1.834,100.0,0.0,0.0,100.0,4.95,0.0,5.35
+GRU,2006-10-30T17:00,Monday evening peak,BFS,fewest intersections,1560,735.1,1.016,98.5,0.004,1.043,66.5,4.95,0.086,5.34
+GRU,2006-10-30T17:00,Monday evening peak,DFS,nothing (first route found),1560,10233.9,7.577,37.4,3.616,26.409,2.1,4.95,8.025,7.32
+GRU,2006-10-30T17:00,Monday evening peak,GBFS,straight-line closeness (greedy),1560,418.7,1.267,96.7,0.017,2.398,61.3,4.95,0.1,5.36
+GRU,2006-10-30T17:00,Monday evening peak,CUS1,fewest intersections (iterative deepening),1560,4598.7,4.057,98.5,0.004,1.043,66.5,4.95,0.086,5.34
+GRU,2006-10-30T17:00,Monday evening peak,CUS2,fewest intersections (IDA*),1560,51993.3,43.414,98.5,0.004,1.043,66.5,4.95,0.086,5.34
+GRU,2006-10-28T12:00,Saturday midday,AS,travel time (optimal),1560,581.5,1.862,100.0,0.0,0.0,100.0,4.95,0.0,5.35
+GRU,2006-10-28T12:00,Saturday midday,BFS,fewest intersections,1560,734.6,1.014,98.5,0.004,1.053,65.7,4.95,0.083,5.34
+GRU,2006-10-28T12:00,Saturday midday,DFS,nothing (first route found),1560,10217.1,7.253,37.5,3.529,25.86,2.1,4.95,7.82,7.32
+GRU,2006-10-28T12:00,Saturday midday,GBFS,straight-line closeness (greedy),1560,416.0,1.274,96.9,0.016,2.307,61.7,4.95,0.097,5.35
+GRU,2006-10-28T12:00,Saturday midday,CUS1,fewest intersections (iterative deepening),1560,4589.8,3.984,98.5,0.004,1.053,65.7,4.95,0.083,5.34
+GRU,2006-10-28T12:00,Saturday midday,CUS2,fewest intersections (IDA*),1560,51878.8,42.856,98.5,0.004,1.053,65.7,4.95,0.083,5.34
+GRU,2006-10-29T00:00,Sunday midnight,AS,travel time (optimal),1560,556.5,2.027,100.0,0.0,0.0,100.0,4.95,0.0,5.33
+GRU,2006-10-29T00:00,Sunday midnight,BFS,fewest intersections,1560,731.0,1.144,99.2,0.003,0.859,67.5,4.95,0.07,5.33
+GRU,2006-10-29T00:00,Sunday midnight,DFS,nothing (first route found),1560,10227.2,7.546,38.7,3.265,27.449,2.1,4.95,7.289,7.31
+GRU,2006-10-29T00:00,Sunday midnight,GBFS,straight-line closeness (greedy),1560,415.8,1.345,97.3,0.015,1.838,61.0,4.95,0.097,5.35
+GRU,2006-10-29T00:00,Sunday midnight,CUS1,fewest intersections (iterative deepening),1560,4501.7,4.084,99.2,0.003,0.859,67.5,4.95,0.07,5.33
+GRU,2006-10-29T00:00,Sunday midnight,CUS2,fewest intersections (IDA*),1560,50884.1,42.724,99.2,0.003,0.859,67.5,4.95,0.07,5.33
