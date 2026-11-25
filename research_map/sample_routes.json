@@ -1,0 +1,1444 @@
+{
+  "origin": "2000",
+  "destination": "3002",
+  "departure": "2006-10-30T08:00:00",
+  "model": "LSTM",
+  "search_method": "AS",
+  "flow_site": "destination",
+  "flow_aggregation": "mean",
+  "routes": [
+    {
+      "path": [
+        "2000",
+        "4043",
+        "4040",
+        "3120",
+        "4035",
+        "3002"
+      ],
+      "minutes": 13.77518561443254
+    },
+    {
+      "path": [
+        "2000",
+        "3682",
+        "3804",
+        "4040",
+        "3120",
+        "4035",
+        "3002"
+      ],
+      "minutes": 14.222758105189707
+    },
+    {
+      "path": [
+        "2000",
+        "4043",
+        "4040",
+        "4272",
+        "4270",
+        "4264",
+        "4263",
+        "3002"
+      ],
+      "minutes": 14.537368324573702
+    },
+    {
+      "path": [
+        "2000",
+        "4043",
+        "4273",
+        "4272",
+        "4270",
+        "4264",
+        "4263",
+        "3002"
+      ],
+      "minutes": 14.665231024946438
+    },
+    {
+      "path": [
+        "2000",
+        "3682",
+        "3126",
+        "3127",
+        "3122",
+        "3120",
+        "4035",
+        "3002"
+      ],
+      "minutes": 14.926601745805128
+    }
+  ],
+  "nodes_created": 493,
+  "fallback_history_values": 36,
+  "capacity_clipped_edges": 0,
+  "edge_count": 112,
+  "flows": {
+    "0970": 1235.9941302724555,
+    "2000": 1262.3122451211334,
+    "2200": 736.0027135489631,
+    "2820": 721.9008140616149,
+    "2825": 1446.6771297099813,
+    "2827": 883.3737428435951,
+    "2846": 693.6161726427472,
+    "3001": 961.7899041063463,
+    "3002": 974.5618725463344,
+    "3120": 884.8040604855606,
+    "3122": 980.5784630535924,
+    "3126": 1096.3197367636812,
+    "3127": 1030.6927106393325,
+    "3180": 749.1991866076975,
+    "3662": 917.3552984969197,
+    "3682": 900.3213293246704,
+    "3685": 1351.5666479642634,
+    "3804": 934.3390220596855,
+    "3812": 849.630208980822,
+    "4030": 531.984576399099,
+    "4032": 902.2069150020458,
+    "4034": 915.3011325284003,
+    "4035": 807.1957566871649,
+    "4040": 545.2553702714073,
+    "4043": 1023.0915489879515,
+    "4051": 416.7029610098402,
+    "4057": 752.5431411306482,
+    "4063": 647.4978635084651,
+    "4262": 723.2826988176216,
+    "4263": 951.4117270011824,
+    "4264": 814.4578343419951,
+    "4266": 932.9145879954224,
+    "4270": 678.0747300115609,
+    "4272": 717.7861024617913,
+    "4273": 1079.7144459425274,
+    "4321": 643.2740768225046,
+    "4324": 638.9595452141889,
+    "4335": 881.9955663429093,
+    "4812": 760.7145043095635,
+    "4821": 639.1629395762894
+  },
+  "nodes": {
+    "0970": {
+      "lat": -37.8673025,
+      "lon": 145.0915075,
+      "name": "HIGH STREET_RD E of WARRIGAL_RD / HIGH STREET_RD W of WARRIGAL_RD / WARRIGAL_RD N of HIGH STREET_RD / WARRIGAL_RD S of HIGH STREET_RD"
+    },
+    "2000": {
+      "lat": -37.851923174999996,
+      "lon": 145.094323925,
+      "name": "BURWOOD_HWY E of WARRIGAL_RD / TOORAK_RD W of WARRIGAL_RD / WARRIGAL_RD N of TOORAK_RD / WARRIGAL_RD S of BURWOOD_HWY"
+    },
+    "2200": {
+      "lat": -37.816539975,
+      "lon": 145.0980472,
+      "name": "MAROONDAH_HWY E of UNION_RD / MAROONDAH_HWY W of UNION_RD / UNION_RD N of MAROONDAH_HWY / UNION_RD S of MAROONDAH_HWY"
+    },
+    "2820": {
+      "lat": -37.794785000000005,
+      "lon": 145.03046,
+      "name": "EARL_ST SE of PRINCESS_ST / PRINCESS_ST S of CHANDLER_HWY"
+    },
+    "2825": {
+      "lat": -37.78661,
+      "lon": 145.06202,
+      "name": "BURKE_RD S of EASTERN_FWY"
+    },
+    "2827": {
+      "lat": -37.781739325000004,
+      "lon": 145.0773314,
+      "name": "BULLEEN_RD N of THOMPSONS_RD / BULLEEN_RD S of EASTERN_FWY_W_BD_RAMPS / OFFRAMP_EASTERN_FWY E of BULLEEN_RD / OFFRAMP_EASTERN_FWY W of BULLEEN_RD"
+    },
+    "2846": {
+      "lat": -37.861304275,
+      "lon": 145.05787450000003,
+      "name": "HIGH_ST E OF S.E.ARTERIAL / HIGH_ST W OF WILLS_ST / S.E.ARTERIAL N OF HIGH_ST / WILLS_ST NW OF HIGH_ST"
+    },
+    "3001": {
+      "lat": -37.814655,
+      "lon": 145.02213749999999,
+      "name": "BARKERS_RD E of HIGH_ST / BARKERS_RD W of CHURCH_ST / CHURCH_ST SW of BARKERS_RD / HIGH_ST NE of BARKERS_RD"
+    },
+    "3002": {
+      "lat": -37.8151625,
+      "lon": 145.02657250000001,
+      "name": "BARKERS_RD E of DENMARK_ST / BARKERS_RD W of DENMARK_ST / DENMARK_ST N of BARKERS_RD / POWER_ST S of BARKERS_RD"
+    },
+    "3120": {
+      "lat": -37.822895,
+      "lon": 145.0572875,
+      "name": "BURKE_RD N of CANTERBURY_RD / BURKE_RD S of CANTERBURY_RD / CANTERBURY_RD E of BURKE_RD / RATHMINES_RD W of BURKE_RD"
+    },
+    "3122": {
+      "lat": -37.823856666666664,
+      "lon": 145.06439333333333,
+      "name": "CANTERBURY_RD E of STANHOPE_GV / CANTERBURY_RD W of STANHOPE_GV / STANHOPE_GV S of CANTERBURY_RD"
+    },
+    "3126": {
+      "lat": -37.827846666666666,
+      "lon": 145.09857666666667,
+      "name": "CANTERBURY_RD E of WARRIGAL_RD / CANTERBURY_RD W of WARRIGAL_RD / WARRIGAL_RD S of CANTERBURY_RD"
+    },
+    "3127": {
+      "lat": -37.825226666666666,
+      "lon": 145.07794666666666,
+      "name": "BALWYN_RD N of CANTERBURY_RD / CANTERBURY_RD E of BALWYN_RD / CANTERBURY_RD W of BALWYN_RD"
+    },
+    "3180": {
+      "lat": -37.796213333333334,
+      "lon": 145.08350666666666,
+      "name": "BALWYN_RD S of DONCASTER_RD / DONCASTER_RD E of BALWYN_RD / DONCASTER_RD W of BALWYN_RD"
+    },
+    "3662": {
+      "lat": -37.808952500000004,
+      "lon": 145.0274575,
+      "name": "HIGH_ST NE of PRINCESS_ST / HIGH_ST SW of DENMARK_ST / PRINCESS_ST N of HIGH_ST / STUDLEY PARK_RD W of PRINCESS_ST"
+    },
+    "3682": {
+      "lat": -37.837475,
+      "lon": 145.0968675,
+      "name": "RIVERSDALE_RD E OF WARRIGAL_RD / RIVERSDALE_RD W OF WARRIGAL_RD / WARRIGAL_RD N OF RIVERSDALE_RD / WARRIGAL_RD S OF RIVERSDALE_RD"
+    },
+    "3685": {
+      "lat": -37.85489666666667,
+      "lon": 145.09391,
+      "name": "HIGHBURY_RD E of WARRIGAL_RD / WARRIGAL_RD N of HIGHBURY_RD / WARRIGAL_RD S of HIGHBURY_RD"
+    },
+    "3804": {
+      "lat": -37.833642499999996,
+      "lon": 145.0623925,
+      "name": "RIVERSDALE_RD E of TRAFALGAR_RD / RIVERSDALE_RD W of TRAFALGAR_RD / TRAFALGAR_RD N of RIVERSDALE_RD / TRAFALGAR_RD S of RIVERSDALE_RD"
+    },
+    "3812": {
+      "lat": -37.83749,
+      "lon": 145.060865,
+      "name": "CAMBERWELL_RD NW of TRAFALGAR_RD / CAMBERWELL_RD SE of TRAFALGAR_RD / SEYMOUR_GV W of CAMBERWELL_RD / TRAFALGAR_RD NE of CAMBERWELL_RD"
+    },
+    "4030": {
+      "lat": -37.79533,
+      "lon": 145.06160666666668,
+      "name": "BURKE_RD S of DONCASTER_RD / HIGH_ST SW of BURKE_RD / KILBY_RD W of BURKE_RD"
+    },
+    "4032": {
+      "lat": -37.8022975,
+      "lon": 145.06123,
+      "name": "BELMORE_RD E of BURKE_RD / BURKE_RD N of HARP_RD / BURKE_RD S of HARP_RD / HARP_RD W of BURKE_RD"
+    },
+    "4034": {
+      "lat": -37.81185,
+      "lon": 145.059405,
+      "name": "BURKE_RD N OF WHITEHORSE_RD / BURKE_RD S OF WHITEHORSE_RD / COTHAM_RD W OF BURKE_RD / WHITEHORSE_RD E OF BURKE_RD"
+    },
+    "4035": {
+      "lat": -37.818156349999995,
+      "lon": 145.058122575,
+      "name": "BARKERS_RD W of BURKE_RD / BURKE_RD N of MONT ALBERT_RD / BURKE_RD S of BARKERS_RD / MONT ALBERT_RD E of BURKE_RD"
+    },
+    "4040": {
+      "lat": -37.83287166666667,
+      "lon": 145.05542333333332,
+      "name": "BURKE_RD N of RIVERSDALE_RD / BURKE_RD S of RIVERSDALE_RD / CAMBERWELL_RD NW of BURKE_RD / CAMBERWELL_RD SE of BURKE_RD / RIVERSDALE_RD E of BURKE_RD / RIVERSDALE_RD W of BURKE_RD"
+    },
+    "4043": {
+      "lat": -37.84716,
+      "lon": 145.0526275,
+      "name": "BURKE_RD N of TOORAK_RD / BURKE_RD S of TOORAK_RD / TOORAK_RD E of BURKE_RD / TOORAK_RD W OF BURKE_RD"
+    },
+    "4051": {
+      "lat": -37.79414333333333,
+      "lon": 145.06933333333333,
+      "name": "DONCASTER_RD E of BULLEEN_RD / DONCASTER_RD SW of SEVERN_ST / SEVERN_ST S of DONCASTER_RD"
+    },
+    "4057": {
+      "lat": -37.804975,
+      "lon": 145.081765,
+      "name": "BALWYN_RD N OF BELMORE_RD / BALWYN_RD S OF BELMORE_RD / BELMORE_RD E OF BALWYN_RD / BELMORE_RD W OF BALWYN_RD"
+    },
+    "4063": {
+      "lat": -37.8143725,
+      "lon": 145.080005,
+      "name": "BALWYN_RD N OF WHITEHORSE_RD / BALWYN_RD S OF WHITEHORSE_RD / WHITEHORSE_RD E OF BALWYN_RD / WHITEHORSE_RD W OF BALWYN_RD"
+    },
+    "4262": {
+      "lat": -37.82155,
+      "lon": 145.01503,
+      "name": "BRIDGE_RD SW of BURWOOD_RD"
+    },
+    "4263": {
+      "lat": -37.823056175,
+      "lon": 145.024958,
+      "name": "BURWOOD_RD E of POWER_ST / BURWOOD_RD W of POWER_ST / POWER_ST N of BURWOOD_RD / POWER_ST S of BURWOOD_RD"
+    },
+    "4264": {
+      "lat": -37.8241275,
+      "lon": 145.03400499999998,
+      "name": "BURWOOD_RD E of GLENFERRIE_RD / BURWOOD_RD W of GLENFERRIE_RD / GLENFERRIE_RD N of BURWOOD_RD / GLENFERRIE_RD S of BURWOOD_RD"
+    },
+    "4266": {
+      "lat": -37.82529666666667,
+      "lon": 145.04344666666668,
+      "name": "AUBURN_RD N of BURWOOD_RD / AUBURN_RD S of BURWOOD_RD / BURWOOD_RD E of AUBURN_RD / BURWOOD_RD W of AUBURN_RD"
+    },
+    "4270": {
+      "lat": -37.8302275,
+      "lon": 145.032815,
+      "name": "GLENFERRIE_RD N of RIVERSDALE_RD / GLENFERRIE_RD S of RIVERSDALE_RD / RIVERSDALE_RD E of GLENFERRIE_RD / RIVERSDALE_RD W of GLENFERRIE_RD"
+    },
+    "4272": {
+      "lat": -37.83188333333333,
+      "lon": 145.04639333333333,
+      "name": "RIVERSDALE_RD E of TOORONGA_RD / RIVERSDALE_RD W of TOORONGA_RD / TOORONGA_RD S of RIVERSDALE_RD"
+    },
+    "4273": {
+      "lat": -37.84659,
+      "lon": 145.04443,
+      "name": "TOORAK_RD E of TOORONGA_RD / TOORONGA_RD N of TOORAK_RD"
+    },
+    "4321": {
+      "lat": -37.800837924999996,
+      "lon": 145.049119025,
+      "name": "HARP_RD E OF HIGH_ST / HIGH_ST NE OF HARP_ST / HIGH_ST SW OF HARP_ST / VALERIE_ST W OF HIGH_ST"
+    },
+    "4324": {
+      "lat": -37.80933233333334,
+      "lon": 145.03684766666666,
+      "name": "COTHAM_RD E OF GLENFERRIE_RD / COTHAM_RD W OF GLENFERRIE_RD / GLENFERRIE_RD S OF COTHAM_RD"
+    },
+    "4335": {
+      "lat": -37.806215,
+      "lon": 145.03525000000002,
+      "name": "HIGH_ST NE of CHARLES_ST"
+    },
+    "4812": {
+      "lat": -37.82891333333333,
+      "lon": 145.01558666666665,
+      "name": "MADDEN_GV S OF SWAN_ST / SWAN_ST NE of MADDEN_GV / SWAN_ST SW of MADDEN_GV"
+    },
+    "4821": {
+      "lat": -37.812965,
+      "lon": 145.00847,
+      "name": "BURNLEY_ST S OF VICTORIA_ST / VICTORIA_ST E OF BURNLEY_ST / VICTORIA_ST W OF BURNLEY_ST / WALMER_ST N OF VICTORIA_ST"
+    }
+  },
+  "edges": [
+    {
+      "source": "2200",
+      "target": "3126",
+      "distance_km": 1.258108316491193,
+      "road": "Warrigal Road",
+      "minutes": 2.0531920962269656,
+      "speed_kmh": 48.60087762025339,
+      "flow_hour": 1096.3197367636812,
+      "capacity_clipped": false
+    },
+    {
+      "source": "3126",
+      "target": "2200",
+      "distance_km": 1.258108316491193,
+      "road": "Warrigal Road",
+      "minutes": 1.8765395852490254,
+      "speed_kmh": 54.837870118944345,
+      "flow_hour": 736.0027135489631,
+      "capacity_clipped": false
+    },
+    {
+      "source": "3126",
+      "target": "3682",
+      "distance_km": 1.081094461893252,
+      "road": "Warrigal Road",
+      "minutes": 1.7418416633244291,
+      "speed_kmh": 52.23344459224273,
+      "flow_hour": 900.3213293246704,
+      "capacity_clipped": false
+    },
+    {
+      "source": "3682",
+      "target": "3126",
+      "distance_km": 1.081094461893252,
+      "road": "Warrigal Road",
+      "minutes": 1.8346604195180978,
+      "speed_kmh": 48.60087762025339,
+      "flow_hour": 1096.3197367636812,
+      "capacity_clipped": false
+    },
+    {
+      "source": "3682",
+      "target": "2000",
+      "distance_km": 1.622016632994853,
+      "road": "Warrigal Road",
+      "minutes": 2.6753286588117207,
+      "speed_kmh": 44.7385261006275,
+      "flow_hour": 1262.3122451211334,
+      "capacity_clipped": false
+    },
+    {
+      "source": "2000",
+      "target": "3682",
+      "distance_km": 1.622016632994853,
+      "road": "Warrigal Road",
+      "minutes": 2.3631931847386625,
+      "speed_kmh": 52.23344459224273,
+      "flow_hour": 900.3213293246704,
+      "capacity_clipped": false
+    },
+    {
+      "source": "2000",
+      "target": "3685",
+      "distance_km": 0.33262887856105455,
+      "road": "Warrigal Road",
+      "minutes": 0.9744308934800665,
+      "speed_kmh": 42.066680285654314,
+      "flow_hour": 1351.5666479642634,
+      "capacity_clipped": false
+    },
+    {
+      "source": "3685",
+      "target": "2000",
+      "distance_km": 0.33262887856105455,
+      "road": "Warrigal Road",
+      "minutes": 0.9460972332609623,
+      "speed_kmh": 44.7385261006275,
+      "flow_hour": 1262.3122451211334,
+      "capacity_clipped": false
+    },
+    {
+      "source": "3685",
+      "target": "0970",
+      "distance_km": 1.3954980802458452,
+      "road": "Warrigal Road",
+      "minutes": 2.343246233179938,
+      "speed_kmh": 45.42523039382605,
+      "flow_hour": 1235.9941302724555,
+      "capacity_clipped": false
+    },
+    {
+      "source": "0970",
+      "target": "3685",
+      "distance_km": 1.3954980802458452,
+      "road": "Warrigal Road",
+      "minutes": 2.4904086618240826,
+      "speed_kmh": 42.066680285654314,
+      "flow_hour": 1351.5666479642634,
+      "capacity_clipped": false
+    },
+    {
+      "source": "2825",
+      "target": "4030",
+      "distance_km": 0.970301114575415,
+      "road": "Burke Road",
+      "minutes": 1.5088575217830098,
+      "speed_kmh": 57.70692651587995,
+      "flow_hour": 531.984576399099,
+      "capacity_clipped": false
+    },
+    {
+      "source": "4030",
+      "target": "2825",
+      "distance_km": 0.970301114575415,
+      "road": "Burke Road",
+      "minutes": 2.030688959328965,
+      "speed_kmh": 38.03389742880682,
+      "flow_hour": 1446.6771297099813,
+      "capacity_clipped": false
+    },
+    {
+      "source": "4030",
+      "target": "4032",
+      "distance_km": 0.7754582563000743,
+      "road": "Burke Road",
+      "minutes": 1.391303841717096,
+      "speed_kmh": 52.201609821819325,
+      "flow_hour": 902.2069150020458,
+      "capacity_clipped": false
+    },
+    {
+      "source": "4032",
+      "target": "4030",
+      "distance_km": 0.7754582563000743,
+      "road": "Burke Road",
+      "minutes": 1.306272282846339,
+      "speed_kmh": 57.70692651587995,
+      "flow_hour": 531.984576399099,
+      "capacity_clipped": false
+    },
+    {
+      "source": "4032",
+      "target": "4034",
+      "distance_km": 1.0742234184768285,
+      "road": "Burke Road",
+      "minutes": 1.7399860329678958,
+      "speed_kmh": 51.979137986208634,
+      "flow_hour": 915.3011325284003,
+      "capacity_clipped": false
+    },
+    {
+      "source": "4034",
+      "target": "4032",
+      "distance_km": 1.0742234184768285,
+      "road": "Burke Road",
+      "minutes": 1.7347014838931147,
+      "speed_kmh": 52.201609821819325,
+      "flow_hour": 902.2069150020458,
+      "capacity_clipped": false
+    },
+    {
+      "source": "4034",
+      "target": "4035",
+      "distance_km": 0.7102262235076813,
+      "road": "Burke Road",
+      "minutes": 1.2928431586100761,
+      "speed_kmh": 53.747797338840904,
+      "flow_hour": 807.1957566871649,
+      "capacity_clipped": false
+    },
+    {
+      "source": "4035",
+      "target": "4034",
+      "distance_km": 0.7102262235076813,
+      "road": "Burke Road",
+      "minutes": 1.319820702331911,
+      "speed_kmh": 51.979137986208634,
+      "flow_hour": 915.3011325284003,
+      "capacity_clipped": false
+    },
+    {
+      "source": "4035",
+      "target": "3120",
+      "distance_km": 0.5319955315000329,
+      "road": "Burke Road",
+      "minutes": 1.1080696195008142,
+      "speed_kmh": 52.49354821608423,
+      "flow_hour": 884.8040604855606,
+      "capacity_clipped": false
+    },
+    {
+      "source": "3120",
+      "target": "4035",
+      "distance_km": 0.5319955315000329,
+      "road": "Burke Road",
+      "minutes": 1.0938798140651458,
+      "speed_kmh": 53.747797338840904,
+      "flow_hour": 807.1957566871649,
+      "capacity_clipped": false
+    },
+    {
+      "source": "3120",
+      "target": "4040",
+      "distance_km": 1.1213730907643495,
+      "road": "Burke Road",
+      "minutes": 1.6695160473238744,
+      "speed_kmh": 57.53010879997652,
+      "flow_hour": 545.2553702714073,
+      "capacity_clipped": false
+    },
+    {
+      "source": "4040",
+      "target": "3120",
+      "distance_km": 1.1213730907643495,
+      "road": "Burke Road",
+      "minutes": 1.7817267594276545,
+      "speed_kmh": 52.49354821608423,
+      "flow_hour": 884.8040604855606,
+      "capacity_clipped": false
+    },
+    {
+      "source": "4040",
+      "target": "4043",
+      "distance_km": 1.6076497171747979,
+      "road": "Burke Road",
+      "minutes": 2.427489609954211,
+      "speed_kmh": 50.04384072025132,
+      "flow_hour": 1023.0915489879515,
+      "capacity_clipped": false
+    },
+    {
+      "source": "4043",
+      "target": "4040",
+      "distance_km": 1.6076497171747979,
+      "road": "Burke Road",
+      "minutes": 2.1766695742895457,
+      "speed_kmh": 57.53010879997652,
+      "flow_hour": 545.2553702714073,
+      "capacity_clipped": false
+    },
+    {
+      "source": "3180",
+      "target": "4057",
+      "distance_km": 0.9861985758440213,
+      "road": "Balwyn Road",
+      "minutes": 1.583947066777336,
+      "speed_kmh": 54.58930271066119,
+      "flow_hour": 752.5431411306482,
+      "capacity_clipped": false
+    },
+    {
+      "source": "4057",
+      "target": "3180",
+      "distance_km": 0.9861985758440213,
+      "road": "Balwyn Road",
+      "minutes": 1.5829457880956286,
+      "speed_kmh": 54.63977532494558,
+      "flow_hour": 749.1991866076975,
+      "capacity_clipped": false
+    },
+    {
+      "source": "4057",
+      "target": "4063",
+      "distance_km": 1.0563326063535943,
+      "road": "Balwyn Road",
+      "minutes": 1.629275679670718,
+      "speed_kmh": 56.124432255281036,
+      "flow_hour": 647.4978635084651,
+      "capacity_clipped": false
+    },
+    {
+      "source": "4063",
+      "target": "4057",
+      "distance_km": 1.0563326063535943,
+      "road": "Balwyn Road",
+      "minutes": 1.661032532640093,
+      "speed_kmh": 54.58930271066119,
+      "flow_hour": 752.5431411306482,
+      "capacity_clipped": false
+    },
+    {
+      "source": "4063",
+      "target": "3127",
+      "distance_km": 1.220396782984135,
+      "road": "Balwyn Road",
+      "minutes": 1.96742651420431,
+      "speed_kmh": 49.89947112871448,
+      "flow_hour": 1030.6927106393325,
+      "capacity_clipped": false
+    },
+    {
+      "source": "3127",
+      "target": "4063",
+      "distance_km": 1.220396782984135,
+      "road": "Balwyn Road",
+      "minutes": 1.8046690013003754,
+      "speed_kmh": 56.124432255281036,
+      "flow_hour": 647.4978635084651,
+      "capacity_clipped": false
+    },
+    {
+      "source": "3120",
+      "target": "3122",
+      "distance_km": 0.6332246332067377,
+      "road": "Canterbury Road",
+      "minutes": 1.2474484618872614,
+      "speed_kmh": 50.83089996128036,
+      "flow_hour": 980.5784630535924,
+      "capacity_clipped": false
+    },
+    {
+      "source": "3122",
+      "target": "3120",
+      "distance_km": 0.6332246332067377,
+      "road": "Canterbury Road",
+      "minutes": 1.2237742405220555,
+      "speed_kmh": 52.49354821608423,
+      "flow_hour": 884.8040604855606,
+      "capacity_clipped": false
+    },
+    {
+      "source": "3122",
+      "target": "3127",
+      "distance_km": 1.2001260863372876,
+      "road": "Canterbury Road",
+      "minutes": 1.9430526727326523,
+      "speed_kmh": 49.89947112871448,
+      "flow_hour": 1030.6927106393325,
+      "capacity_clipped": false
+    },
+    {
+      "source": "3127",
+      "target": "3122",
+      "distance_km": 1.2001260863372876,
+      "road": "Canterbury Road",
+      "minutes": 1.9166100784185975,
+      "speed_kmh": 50.83089996128036,
+      "flow_hour": 980.5784630535924,
+      "capacity_clipped": false
+    },
+    {
+      "source": "3127",
+      "target": "3126",
+      "distance_km": 1.835199680429146,
+      "road": "Canterbury Road",
+      "minutes": 2.765637704860332,
+      "speed_kmh": 48.60087762025339,
+      "flow_hour": 1096.3197367636812,
+      "capacity_clipped": false
+    },
+    {
+      "source": "3126",
+      "target": "3127",
+      "distance_km": 1.835199680429146,
+      "road": "Canterbury Road",
+      "minutes": 2.7066763100898914,
+      "speed_kmh": 49.89947112871448,
+      "flow_hour": 1030.6927106393325,
+      "capacity_clipped": false
+    },
+    {
+      "source": "4270",
+      "target": "4272",
+      "distance_km": 1.2066391080814574,
+      "road": "Riversdale Road",
+      "minutes": 1.8137411238749606,
+      "speed_kmh": 55.10853330932052,
+      "flow_hour": 717.7861024617913,
+      "capacity_clipped": false
+    },
+    {
+      "source": "4272",
+      "target": "4270",
+      "distance_km": 1.2066391080814574,
+      "road": "Riversdale Road",
+      "minutes": 1.800074380371337,
+      "speed_kmh": 55.687849539969,
+      "flow_hour": 678.0747300115609,
+      "capacity_clipped": false
+    },
+    {
+      "source": "4272",
+      "target": "4040",
+      "distance_km": 0.800618586910289,
+      "road": "Riversdale Road",
+      "minutes": 1.3349908633344518,
+      "speed_kmh": 57.53010879997652,
+      "flow_hour": 545.2553702714073,
+      "capacity_clipped": false
+    },
+    {
+      "source": "4040",
+      "target": "4272",
+      "distance_km": 0.800618586910289,
+      "road": "Riversdale Road",
+      "minutes": 1.371681976092309,
+      "speed_kmh": 55.10853330932052,
+      "flow_hour": 717.7861024617913,
+      "capacity_clipped": false
+    },
+    {
+      "source": "4040",
+      "target": "3804",
+      "distance_km": 0.6180172214879412,
+      "road": "Riversdale Road",
+      "minutes": 1.2179124649596027,
+      "speed_kmh": 51.65119022047213,
+      "flow_hour": 934.3390220596855,
+      "capacity_clipped": false
+    },
+    {
+      "source": "3804",
+      "target": "4040",
+      "distance_km": 0.6180172214879412,
+      "road": "Riversdale Road",
+      "minutes": 1.1445500288935941,
+      "speed_kmh": 57.53010879997652,
+      "flow_hour": 545.2553702714073,
+      "capacity_clipped": false
+    },
+    {
+      "source": "3804",
+      "target": "3682",
+      "distance_km": 3.0574066531787434,
+      "road": "Riversdale Road",
+      "minutes": 4.012010372334667,
+      "speed_kmh": 52.23344459224273,
+      "flow_hour": 900.3213293246704,
+      "capacity_clipped": false
+    },
+    {
+      "source": "3682",
+      "target": "3804",
+      "distance_km": 3.0574066531787434,
+      "road": "Riversdale Road",
+      "minutes": 4.051600619611971,
+      "speed_kmh": 51.65119022047213,
+      "flow_hour": 934.3390220596855,
+      "capacity_clipped": false
+    },
+    {
+      "source": "4273",
+      "target": "4043",
+      "distance_km": 0.7225712540564408,
+      "road": "Toorak Road",
+      "minutes": 1.3663258978410546,
+      "speed_kmh": 50.04384072025132,
+      "flow_hour": 1023.0915489879515,
+      "capacity_clipped": false
+    },
+    {
+      "source": "4043",
+      "target": "4273",
+      "distance_km": 0.7225712540564408,
+      "road": "Toorak Road",
+      "minutes": 1.3858864012434684,
+      "speed_kmh": 48.93886527949014,
+      "flow_hour": 1079.7144459425274,
+      "capacity_clipped": false
+    },
+    {
+      "source": "4043",
+      "target": "2000",
+      "distance_km": 3.6991587744296925,
+      "road": "Toorak Road",
+      "minutes": 5.461037964607164,
+      "speed_kmh": 44.7385261006275,
+      "flow_hour": 1262.3122451211334,
+      "capacity_clipped": false
+    },
+    {
+      "source": "2000",
+      "target": "4043",
+      "distance_km": 3.6991587744296925,
+      "road": "Toorak Road",
+      "minutes": 4.935101768197518,
+      "speed_kmh": 50.04384072025132,
+      "flow_hour": 1023.0915489879515,
+      "capacity_clipped": false
+    },
+    {
+      "source": "4262",
+      "target": "4263",
+      "distance_km": 0.8879612701598887,
+      "road": "Burwood Road",
+      "minutes": 1.5374920851269513,
+      "speed_kmh": 51.352368826094775,
+      "flow_hour": 951.4117270011824,
+      "capacity_clipped": false
+    },
+    {
+      "source": "4263",
+      "target": "4262",
+      "distance_km": 0.8879612701598887,
+      "road": "Burwood Road",
+      "minutes": 1.4682062036330012,
+      "speed_kmh": 55.027199794506004,
+      "flow_hour": 723.2826988176216,
+      "capacity_clipped": false
+    },
+    {
+      "source": "4263",
+      "target": "4264",
+      "distance_km": 0.8035074259395298,
+      "road": "Burwood Road",
+      "minutes": 1.3988865217240254,
+      "speed_kmh": 53.63351701381199,
+      "flow_hour": 814.4578343419951,
+      "capacity_clipped": false
+    },
+    {
+      "source": "4264",
+      "target": "4263",
+      "distance_km": 0.8035074259395298,
+      "road": "Burwood Road",
+      "minutes": 1.4388163907226337,
+      "speed_kmh": 51.352368826094775,
+      "flow_hour": 951.4117270011824,
+      "capacity_clipped": false
+    },
+    {
+      "source": "4264",
+      "target": "4266",
+      "distance_km": 0.8394085520085287,
+      "road": "Burwood Road",
+      "minutes": 1.4746225368862802,
+      "speed_kmh": 51.67591679278836,
+      "flow_hour": 932.9145879954224,
+      "capacity_clipped": false
+    },
+    {
+      "source": "4266",
+      "target": "4264",
+      "distance_km": 0.8394085520085287,
+      "road": "Burwood Road",
+      "minutes": 1.4390492349689017,
+      "speed_kmh": 53.63351701381199,
+      "flow_hour": 814.4578343419951,
+      "capacity_clipped": false
+    },
+    {
+      "source": "4266",
+      "target": "3120",
+      "distance_km": 1.2446643519429972,
+      "road": "Burwood Road",
+      "minutes": 1.9226483759331328,
+      "speed_kmh": 52.49354821608423,
+      "flow_hour": 884.8040604855606,
+      "capacity_clipped": false
+    },
+    {
+      "source": "3120",
+      "target": "4266",
+      "distance_km": 1.2446643519429972,
+      "road": "Burwood Road",
+      "minutes": 1.9451579333567197,
+      "speed_kmh": 51.67591679278836,
+      "flow_hour": 932.9145879954224,
+      "capacity_clipped": false
+    },
+    {
+      "source": "3001",
+      "target": "3002",
+      "distance_km": 0.39365225418035554,
+      "road": "Barkers Road",
+      "minutes": 0.963669016224233,
+      "speed_kmh": 50.93964535986806,
+      "flow_hour": 974.5618725463344,
+      "capacity_clipped": false
+    },
+    {
+      "source": "3002",
+      "target": "3001",
+      "distance_km": 0.39365225418035554,
+      "road": "Barkers Road",
+      "minutes": 0.9615957256151251,
+      "speed_kmh": 51.16844446370541,
+      "flow_hour": 961.7899041063463,
+      "capacity_clipped": false
+    },
+    {
+      "source": "3002",
+      "target": "4035",
+      "distance_km": 2.791329302843724,
+      "road": "Barkers Road",
+      "minutes": 3.616030171707037,
+      "speed_kmh": 53.747797338840904,
+      "flow_hour": 807.1957566871649,
+      "capacity_clipped": false
+    },
+    {
+      "source": "4035",
+      "target": "3002",
+      "distance_km": 2.791329302843724,
+      "road": "Barkers Road",
+      "minutes": 3.787807698452678,
+      "speed_kmh": 50.93964535986806,
+      "flow_hour": 974.5618725463344,
+      "capacity_clipped": false
+    },
+    {
+      "source": "3662",
+      "target": "4335",
+      "distance_km": 0.749212731235522,
+      "road": "High Street (Kew)",
+      "minutes": 1.3555868007317105,
+      "speed_kmh": 52.540272752790315,
+      "flow_hour": 881.9955663429093,
+      "capacity_clipped": false
+    },
+    {
+      "source": "4335",
+      "target": "3662",
+      "distance_km": 0.749212731235522,
+      "road": "High Street (Kew)",
+      "minutes": 1.3654080007256333,
+      "speed_kmh": 51.94401234612924,
+      "flow_hour": 917.3552984969197,
+      "capacity_clipped": false
+    },
+    {
+      "source": "4335",
+      "target": "4321",
+      "distance_km": 1.3572821811034395,
+      "road": "High Street (Kew)",
+      "minutes": 1.949465253066626,
+      "speed_kmh": 56.18412079483152,
+      "flow_hour": 643.2740768225046,
+      "capacity_clipped": false
+    },
+    {
+      "source": "4321",
+      "target": "4335",
+      "distance_km": 1.3572821811034395,
+      "road": "High Street (Kew)",
+      "minutes": 2.0499906376462693,
+      "speed_kmh": 52.540272752790315,
+      "flow_hour": 881.9955663429093,
+      "capacity_clipped": false
+    },
+    {
+      "source": "4321",
+      "target": "4030",
+      "distance_km": 1.2565702591882826,
+      "road": "High Street (Kew)",
+      "minutes": 1.806502011167581,
+      "speed_kmh": 57.70692651587995,
+      "flow_hour": 531.984576399099,
+      "capacity_clipped": false
+    },
+    {
+      "source": "4030",
+      "target": "4321",
+      "distance_km": 1.2565702591882826,
+      "road": "High Street (Kew)",
+      "minutes": 1.841913239625396,
+      "speed_kmh": 56.18412079483152,
+      "flow_hour": 643.2740768225046,
+      "capacity_clipped": false
+    },
+    {
+      "source": "2846",
+      "target": "0970",
+      "distance_km": 3.0268648698714093,
+      "road": "High Street (Glen Iris)",
+      "minutes": 4.498040089565913,
+      "speed_kmh": 45.42523039382605,
+      "flow_hour": 1235.9941302724555,
+      "capacity_clipped": false
+    },
+    {
+      "source": "0970",
+      "target": "2846",
+      "distance_km": 3.0268648698714093,
+      "road": "High Street (Glen Iris)",
+      "minutes": 3.77447924539285,
+      "speed_kmh": 55.4628319748278,
+      "flow_hour": 693.6161726427472,
+      "capacity_clipped": false
+    },
+    {
+      "source": "2820",
+      "target": "3662",
+      "distance_km": 1.5972903120726527,
+      "road": "Princess Street",
+      "minutes": 2.3450137830275013,
+      "speed_kmh": 51.94401234612924,
+      "flow_hour": 917.3552984969197,
+      "capacity_clipped": false
+    },
+    {
+      "source": "3662",
+      "target": "2820",
+      "distance_km": 1.5972903120726527,
+      "road": "Princess Street",
+      "minutes": 2.2409894121456926,
+      "speed_kmh": 55.047674647397066,
+      "flow_hour": 721.9008140616149,
+      "capacity_clipped": false
+    },
+    {
+      "source": "3662",
+      "target": "3002",
+      "distance_km": 0.6948842301687818,
+      "road": "Denmark Street",
+      "minutes": 1.3184794675263694,
+      "speed_kmh": 50.93964535986806,
+      "flow_hour": 974.5618725463344,
+      "capacity_clipped": false
+    },
+    {
+      "source": "3002",
+      "target": "3662",
+      "distance_km": 0.6948842301687818,
+      "road": "Denmark Street",
+      "minutes": 1.3026537020726274,
+      "speed_kmh": 51.94401234612924,
+      "flow_hour": 917.3552984969197,
+      "capacity_clipped": false
+    },
+    {
+      "source": "3662",
+      "target": "3001",
+      "distance_km": 0.7877080102841546,
+      "road": "High/Church Street",
+      "minutes": 1.4236645966553332,
+      "speed_kmh": 51.16844446370541,
+      "flow_hour": 961.7899041063463,
+      "capacity_clipped": false
+    },
+    {
+      "source": "3001",
+      "target": "3662",
+      "distance_km": 0.7877080102841546,
+      "road": "High/Church Street",
+      "minutes": 1.4098735057683927,
+      "speed_kmh": 51.94401234612924,
+      "flow_hour": 917.3552984969197,
+      "capacity_clipped": false
+    },
+    {
+      "source": "3001",
+      "target": "4262",
+      "distance_km": 0.988732003027857,
+      "road": "High/Church Street",
+      "minutes": 1.5780835732730563,
+      "speed_kmh": 55.027199794506004,
+      "flow_hour": 723.2826988176216,
+      "capacity_clipped": false
+    },
+    {
+      "source": "4262",
+      "target": "3001",
+      "distance_km": 0.988732003027857,
+      "road": "High/Church Street",
+      "minutes": 1.6593848670492772,
+      "speed_kmh": 51.16844446370541,
+      "flow_hour": 961.7899041063463,
+      "capacity_clipped": false
+    },
+    {
+      "source": "3002",
+      "target": "4263",
+      "distance_km": 0.8891205257864944,
+      "road": "Power Street",
+      "minutes": 1.5388465569689787,
+      "speed_kmh": 51.352368826094775,
+      "flow_hour": 951.4117270011824,
+      "capacity_clipped": false
+    },
+    {
+      "source": "4263",
+      "target": "3002",
+      "distance_km": 0.8891205257864944,
+      "road": "Power Street",
+      "minutes": 1.5472635050816113,
+      "speed_kmh": 50.93964535986806,
+      "flow_hour": 974.5618725463344,
+      "capacity_clipped": false
+    },
+    {
+      "source": "4263",
+      "target": "4812",
+      "distance_km": 1.0495948206010857,
+      "road": "Power Street",
+      "minutes": 1.6562493924392554,
+      "speed_kmh": 54.465489580245226,
+      "flow_hour": 760.7145043095635,
+      "capacity_clipped": false
+    },
+    {
+      "source": "4812",
+      "target": "4263",
+      "distance_km": 1.0495948206010857,
+      "road": "Power Street",
+      "minutes": 1.726344386357966,
+      "speed_kmh": 51.352368826094775,
+      "flow_hour": 951.4117270011824,
+      "capacity_clipped": false
+    },
+    {
+      "source": "4324",
+      "target": "4264",
+      "distance_km": 1.6639921106912123,
+      "road": "Glenferrie Road",
+      "minutes": 2.3615136989014074,
+      "speed_kmh": 53.63351701381199,
+      "flow_hour": 814.4578343419951,
+      "capacity_clipped": false
+    },
+    {
+      "source": "4264",
+      "target": "4324",
+      "distance_km": 1.6639921106912123,
+      "road": "Glenferrie Road",
+      "minutes": 2.275084597376495,
+      "speed_kmh": 56.24493998146996,
+      "flow_hour": 638.9595452141889,
+      "capacity_clipped": false
+    },
+    {
+      "source": "4264",
+      "target": "4270",
+      "distance_km": 0.6862951360878417,
+      "road": "Glenferrie Road",
+      "minutes": 1.2394379295561755,
+      "speed_kmh": 55.687849539969,
+      "flow_hour": 678.0747300115609,
+      "capacity_clipped": false
+    },
+    {
+      "source": "4270",
+      "target": "4264",
+      "distance_km": 0.6862951360878417,
+      "road": "Glenferrie Road",
+      "minutes": 1.2677607298187474,
+      "speed_kmh": 53.63351701381199,
+      "flow_hour": 814.4578343419951,
+      "capacity_clipped": false
+    },
+    {
+      "source": "3662",
+      "target": "4324",
+      "distance_km": 0.8260110956017453,
+      "road": "Cotham/Whitehorse Road",
+      "minutes": 1.3811577673019584,
+      "speed_kmh": 56.24493998146996,
+      "flow_hour": 638.9595452141889,
+      "capacity_clipped": false
+    },
+    {
+      "source": "4324",
+      "target": "3662",
+      "distance_km": 0.8260110956017453,
+      "road": "Cotham/Whitehorse Road",
+      "minutes": 1.4541170097884801,
+      "speed_kmh": 51.94401234612924,
+      "flow_hour": 917.3552984969197,
+      "capacity_clipped": false
+    },
+    {
+      "source": "4324",
+      "target": "4034",
+      "distance_km": 2.001310746105523,
+      "road": "Cotham/Whitehorse Road",
+      "minutes": 2.8101315146509593,
+      "speed_kmh": 51.979137986208634,
+      "flow_hour": 915.3011325284003,
+      "capacity_clipped": false
+    },
+    {
+      "source": "4034",
+      "target": "4324",
+      "distance_km": 2.001310746105523,
+      "road": "Cotham/Whitehorse Road",
+      "minutes": 2.634923511446391,
+      "speed_kmh": 56.24493998146996,
+      "flow_hour": 638.9595452141889,
+      "capacity_clipped": false
+    },
+    {
+      "source": "4034",
+      "target": "4063",
+      "distance_km": 1.831231270044299,
+      "road": "Cotham/Whitehorse Road",
+      "minutes": 2.457683521908934,
+      "speed_kmh": 56.124432255281036,
+      "flow_hour": 647.4978635084651,
+      "capacity_clipped": false
+    },
+    {
+      "source": "4063",
+      "target": "4034",
+      "distance_km": 1.831231270044299,
+      "road": "Cotham/Whitehorse Road",
+      "minutes": 2.6138072014932265,
+      "speed_kmh": 51.979137986208634,
+      "flow_hour": 915.3011325284003,
+      "capacity_clipped": false
+    },
+    {
+      "source": "4063",
+      "target": "2200",
+      "distance_km": 1.6031009227107198,
+      "road": "Cotham/Whitehorse Road",
+      "minutes": 2.254007862705351,
+      "speed_kmh": 54.837870118944345,
+      "flow_hour": 736.0027135489631,
+      "capacity_clipped": false
+    },
+    {
+      "source": "2200",
+      "target": "4063",
+      "distance_km": 1.6031009227107198,
+      "road": "Cotham/Whitehorse Road",
+      "minutes": 2.2138000599300947,
+      "speed_kmh": 56.124432255281036,
+      "flow_hour": 647.4978635084651,
+      "capacity_clipped": false
+    },
+    {
+      "source": "4321",
+      "target": "4032",
+      "distance_km": 1.076370174853122,
+      "road": "Harp/Belmore Road",
+      "minutes": 1.737168943862592,
+      "speed_kmh": 52.201609821819325,
+      "flow_hour": 902.2069150020458,
+      "capacity_clipped": false
+    },
+    {
+      "source": "4032",
+      "target": "4321",
+      "distance_km": 1.076370174853122,
+      "road": "Harp/Belmore Road",
+      "minutes": 1.6494744347254848,
+      "speed_kmh": 56.18412079483152,
+      "flow_hour": 643.2740768225046,
+      "capacity_clipped": false
+    },
+    {
+      "source": "4032",
+      "target": "4057",
+      "distance_km": 1.8285446751915087,
+      "road": "Harp/Belmore Road",
+      "minutes": 2.509783511853941,
+      "speed_kmh": 54.58930271066119,
+      "flow_hour": 752.5431411306482,
+      "capacity_clipped": false
+    },
+    {
+      "source": "4057",
+      "target": "4032",
+      "distance_km": 1.8285446751915087,
+      "road": "Harp/Belmore Road",
+      "minutes": 2.6017106730228194,
+      "speed_kmh": 52.201609821819325,
+      "flow_hour": 902.2069150020458,
+      "capacity_clipped": false
+    },
+    {
+      "source": "4030",
+      "target": "4051",
+      "distance_km": 0.6916275262975397,
+      "road": "Doncaster Road",
+      "minutes": 1.2010379078486049,
+      "speed_kmh": 59.19459006889276,
+      "flow_hour": 416.7029610098402,
+      "capacity_clipped": false
+    },
+    {
+      "source": "4051",
+      "target": "4030",
+      "distance_km": 0.6916275262975397,
+      "road": "Doncaster Road",
+      "minutes": 1.2191104098471253,
+      "speed_kmh": 57.70692651587995,
+      "flow_hour": 531.984576399099,
+      "capacity_clipped": false
+    },
+    {
+      "source": "4051",
+      "target": "3180",
+      "distance_km": 1.2664616593307017,
+      "road": "Doncaster Road",
+      "minutes": 1.8907030017590538,
+      "speed_kmh": 54.63977532494558,
+      "flow_hour": 749.1991866076975,
+      "capacity_clipped": false
+    },
+    {
+      "source": "3180",
+      "target": "4051",
+      "distance_km": 1.2664616593307017,
+      "road": "Doncaster Road",
+      "minutes": 1.7836933150716126,
+      "speed_kmh": 59.19459006889276,
+      "flow_hour": 416.7029610098402,
+      "capacity_clipped": false
+    },
+    {
+      "source": "2827",
+      "target": "4051",
+      "distance_km": 1.5480145505634793,
+      "road": "Bulleen Road",
+      "minutes": 2.0690770546043264,
+      "speed_kmh": 59.19459006889276,
+      "flow_hour": 416.7029610098402,
+      "capacity_clipped": false
+    },
+    {
+      "source": "4051",
+      "target": "2827",
+      "distance_km": 1.5480145505634793,
+      "road": "Bulleen Road",
+      "minutes": 2.2685747614061516,
+      "speed_kmh": 52.51735751332411,
+      "flow_hour": 883.3737428435951,
+      "capacity_clipped": false
+    },
+    {
+      "source": "3804",
+      "target": "3812",
+      "distance_km": 0.4483604311340485,
+      "road": "Trafalgar Road",
+      "minutes": 1.0068963562163822,
+      "speed_kmh": 53.07125517501103,
+      "flow_hour": 849.630208980822,
+      "capacity_clipped": false
+    },
+    {
+      "source": "3812",
+      "target": "3804",
+      "distance_km": 0.4483604311340485,
+      "road": "Trafalgar Road",
+      "minutes": 1.0208326420594342,
+      "speed_kmh": 51.65119022047213,
+      "flow_hour": 934.3390220596855,
+      "capacity_clipped": false
+    },
+    {
+      "source": "4040",
+      "target": "3812",
+      "distance_km": 0.7014931505827161,
+      "road": "Camberwell Road",
+      "minutes": 1.293076947137688,
+      "speed_kmh": 53.07125517501103,
+      "flow_hour": 849.630208980822,
+      "capacity_clipped": false
+    },
+    {
+      "source": "3812",
+      "target": "4040",
+      "distance_km": 0.7014931505827161,
+      "road": "Camberwell Road",
+      "minutes": 1.2316097590098796,
+      "speed_kmh": 57.53010879997652,
+      "flow_hour": 545.2553702714073,
+      "capacity_clipped": false
+    },
+    {
+      "source": "4272",
+      "target": "4273",
+      "distance_km": 1.6443723654897977,
+      "road": "Tooronga Road",
+      "minutes": 2.516032479828183,
+      "speed_kmh": 48.93886527949014,
+      "flow_hour": 1079.7144459425274,
+      "capacity_clipped": false
+    },
+    {
+      "source": "4273",
+      "target": "4272",
+      "distance_km": 1.6443723654897977,
+      "road": "Tooronga Road",
+      "minutes": 2.2903278495111223,
+      "speed_kmh": 55.10853330932052,
+      "flow_hour": 717.7861024617913,
+      "capacity_clipped": false
+    },
+    {
+      "source": "4812",
+      "target": "4270",
+      "distance_km": 1.520138328748743,
+      "road": "Swan/Riversdale Road",
+      "minutes": 2.137849198315,
+      "speed_kmh": 55.687849539969,
+      "flow_hour": 678.0747300115609,
+      "capacity_clipped": false
+    },
+    {
+      "source": "4270",
+      "target": "4812",
+      "distance_km": 1.520138328748743,
+      "road": "Swan/Riversdale Road",
+      "minutes": 2.1746071765414934,
+      "speed_kmh": 54.465489580245226,
+      "flow_hour": 760.7145043095635,
+      "capacity_clipped": false
+    },
+    {
+      "source": "4821",
+      "target": "3001",
+      "distance_km": 1.215237951806282,
+      "road": "Victoria/Barkers Road via Church Street",
+      "minutes": 1.9249852203362594,
+      "speed_kmh": 51.16844446370541,
+      "flow_hour": 961.7899041063463,
+      "capacity_clipped": false
+    },
+    {
+      "source": "3001",
+      "target": "4821",
+      "distance_km": 1.215237951806282,
+      "road": "Victoria/Barkers Road via Church Street",
+      "minutes": 1.79643643905145,
+      "speed_kmh": 56.24207628854164,
+      "flow_hour": 639.1629395762894,
+      "capacity_clipped": false
+    }
+  ],
+  "assumption": "Static departure-hour weights on a simplified corridor graph; no live traffic or turn restrictions."
+}

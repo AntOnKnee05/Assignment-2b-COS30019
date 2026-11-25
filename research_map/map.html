@@ -1,0 +1,52 @@
+<!doctype html>
+<html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>TBRGS geographic research viewer</title>
+<link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css">
+<style>body{margin:0;font:15px system-ui;color:#183044;background:#f3f6f9}header{padding:18px 24px;background:#fff}h1{margin:0 0 8px;font-size:25px}p{margin:8px 0}main{display:grid;grid-template-columns:340px 1fr;height:72vh}aside{padding:18px;overflow:auto}#map{min-height:500px}button{display:block;width:100%;text-align:left;padding:12px;margin:7px 0;background:white;border:1px solid #aabcc7;border-radius:7px;cursor:pointer}button.selected{border:3px solid #007f99}small{display:block;color:#536574}#status{padding:10px;background:#fff2d5}footer{padding:15px 24px}label{display:block;margin:12px 0}.legend{padding:8px;background:white} @media(max-width:750px){main{display:block;height:auto}#map{height:65vh}}</style>
+</head><body><header><h1>Traffic predictions on OpenStreetMap</h1><p>Research extension · historical October 2006 predictions · not live navigation</p>
+<label>Load another saved route result: <input type="file" id="file" accept=".json"></label>
+<div id="status">Loading saved result…</div></header><main><aside><h2>Journey and alternatives</h2><p id="summary"></p><label><input type="checkbox" id="traffic" checked> Show selected route traffic</label><div class="legend">Flow / conversion capacity:<br>Blue: below 50% · Orange: 50–100% · Red: above capacity<br>Purple outline: selected road route<br>Green: origin · Red outline: destination</div><div id="routes"></div><h3>Coordinate review</h3><p>Click a site to inspect its description and coordinates. Compare its location with the road intersection. Positions are supplied detector averages, not verified corrections.</p></aside><div id="map"></div></main><footer><strong>Interpretation:</strong> coloured edges show modelled flow, not observed congestion. Routes follow OSRM driving geometry between the supplied SCATS positions. Predicted flows are projected onto each road leg for illustration. Displayed minutes still come from the original simplified graph, not the road service. Snapping to a nearby road does not verify the named intersection. Internet access is needed for the map library and background tiles.</footer>
+<script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+<script>
+'use strict';
+const status=document.querySelector('#status');
+const text=(tag,value)=>{const x=document.createElement(tag);x.textContent=value;return x};
+let map,network,sites,selected,result,roadData;
+const capacity=93.75**2/(4*1.4648375);
+function validate(d){
+ if(!d.nodes||!Array.isArray(d.edges)||!Array.isArray(d.routes))throw Error('Expected a full saved route result with nodes, edges and routes.');
+ for(const [id,n] of Object.entries(d.nodes)){if(!Number.isFinite(n.lat)||!Number.isFinite(n.lon)||n.lat<=-39||n.lat>=-37||n.lon<=144||n.lon>=146)throw Error('Invalid Melbourne coordinate for '+id);}
+ for(const e of d.edges){if(!d.nodes[e.source]||!d.nodes[e.target]||!Number.isFinite(e.flow_hour)||e.flow_hour<0)throw Error('Invalid edge data');}
+ for(const r of d.routes){if(!Array.isArray(r.path)||!r.path.length||r.path.some(id=>!d.nodes[id])||!Number.isFinite(r.minutes))throw Error('Invalid route data');}
+ if(!Object.keys(d.nodes).length)throw Error('No sites in result');
+}
+function point(id){return [result.nodes[id].lat,result.nodes[id].lon]}
+function choose(i){
+ selected.clearLayers();network.clearLayers();const r=result.routes[i];
+ const coords=r.path.map(id=>`${result.nodes[id].lon},${result.nodes[id].lat}`).join(';');
+ const road=roadData.routes.find(x=>x.path.join(':')===r.path.join(':')&&x.coordinates.split(';').every((pair,k)=>pair.split(',').every((v,j)=>Math.abs(Number(v)-Number(coords.split(';')[k].split(',')[j]))<1e-8)));
+ if(!road){status.textContent='No cached road geometry for this journey. No straight-line route will be drawn.';return;}
+ L.geoJSON(road.geometry,{style:{color:'#7027a0',weight:7,opacity:.75}}).addTo(selected);
+ road.legs.forEach((leg,j)=>{
+  const edge=result.edges.find(e=>e.source===r.path[j]&&e.target===r.path[j+1]);if(!edge)return;
+  const ratio=edge.flow_hour/capacity;
+  const popup=text('p',`${edge.source} → ${edge.target}: ${edge.flow_hour.toFixed(1)} predicted vehicles/hour; ${edge.minutes.toFixed(2)} modelled minutes. Road geometry supplied by OSRM; cost not recalculated.`);
+  for(const step of leg.steps)L.geoJSON(step.geometry,{style:{color:ratio>1?'#c43a32':ratio>=.5?'#bd7100':'#227bb0',weight:4,opacity:1}}).bindPopup(popup).addTo(network);
+ });
+ document.querySelectorAll('#routes button').forEach((b,j)=>b.classList.toggle('selected',i===j));
+ status.textContent=`Route ${i+1}: road-following display · ${r.minutes.toFixed(2)} min from original simplified model · max road snap ${Math.max(...road.waypoints.map(w=>w.distance)).toFixed(1)} m. Named intersections remain unverified.`;
+}
+function render(d){validate(d);result=d;network.clearLayers();sites.clearLayers();selected.clearLayers();document.querySelector('#routes').replaceChildren();
+ document.querySelector('#summary').textContent=`${d.origin} → ${d.destination} | ${d.departure} | ${d.model} | ${d.flow_aggregation} aggregation`;
+ for(const [id,n] of Object.entries(d.nodes)){const popup=document.createElement('div');popup.append(text('strong','SCATS '+id),text('p',n.name),text('p',`Supplied position: ${n.lat.toFixed(6)}, ${n.lon.toFixed(6)}`),text('p',`Predicted site flow: ${Number(d.flows[id]).toFixed(1)} vehicles/hour (${d.flow_aggregation})`));L.circleMarker(point(id),{radius:7,color:id===d.destination?'#b52727':id===d.origin?'#147d43':'#183044',fillColor:id===d.origin?'#28a568':'white',fillOpacity:1,weight:3}).bindTooltip(id).bindPopup(popup).addTo(sites);}
+ d.routes.forEach((r,i)=>{const b=text('button',`Route ${i+1} · ${r.minutes.toFixed(2)} min`);b.append(text('small',r.path.join(' → ')));b.onclick=()=>choose(i);document.querySelector('#routes').append(b)});
+ map.fitBounds(Object.keys(d.nodes).map(point),{padding:[20,20]});if(d.routes.length)choose(0);
+}
+if(typeof L==='undefined'){status.textContent='Map library could not load. Check your internet connection and reload.';}else{
+ map=L.map('map');network=L.layerGroup().addTo(map);sites=L.layerGroup().addTo(map);selected=L.layerGroup().addTo(map);
+ L.tileLayer('https://tile.openstreetmap.org/{z}/{x}/{y}.png',{maxZoom:19,attribution:'&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'}).on('tileerror',()=>{status.textContent='Background tiles unavailable; predictions remain visible. Check internet access.'}).addTo(map);
+ document.querySelector('#traffic').onchange=e=>e.target.checked?network.addTo(map):map.removeLayer(network);
+ document.querySelector('#file').onchange=async e=>{try{render(JSON.parse(await e.target.files[0].text()))}catch(err){status.textContent=err.message}};
+ Promise.all(['road_geometry.json','sample_routes.json'].map(url=>fetch(url).then(r=>{if(!r.ok)throw Error('Cannot load '+url);return r.json()}))).then(([roads,data])=>{roadData=roads;render(data)}).catch(e=>status.textContent=e.message);
+}
+</script></body></html>
